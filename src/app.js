@@ -1,9 +1,9 @@
 // Redesigned by telegram.dog/TheFirstSpeedster at https://www.npmjs.com/package/@googledrive/index which was written by someone else, credits are given on Source Page.
-// v2.3.5
+// v2.3.7
 // Initialize the page
 function init() {
-	document.siteName = $('title').html();
-	var html = `<header>
+    document.siteName = $('title').html();
+    var html = `<header>
    <div id="nav">
    </div>
 </header>
@@ -30,7 +30,7 @@ function init() {
 <br>
 <footer class="footer mt-auto py-3 text-muted ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <p class="float-end"> <a href="#">Back to top</a> </p> ${UI.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} <p>© ${UI.copyright_year} - <a href=" ${UI.company_link}" target="_blank"> ${UI.company_name}</a>, All Rights Reserved.</p> </div> </footer>
   `;
-	$('body').html(html);
+    $('body').html(html);
 }
 
 const folder_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet"><g clip-path="url(#__lottie_element_11)"><g transform="matrix(1,0,0,1,0,0)" opacity="1" style="display: block;"><g opacity="1" transform="matrix(1,0,0,1,24,24)"><path fill="rgb(255,159,0)" fill-opacity="1" d=" M16,-12 C16,-12 -2,-12 -2,-12 C-2,-12 -6,-16 -6,-16 C-6,-16 -16,-16 -16,-16 C-18.200000762939453,-16 -20,-14.199999809265137 -20,-12 C-20,-12 -20,12 -20,12 C-20,14.208999633789062 -18.208999633789062,16 -16,16 C-16,16 13.682000160217285,16 13.682000160217285,16 C13.682000160217285,16 20,5 20,5 C20,5 20,-8 20,-8 C20,-10.199999809265137 18.200000762939453,-12 16,-12z"></path></g></g><g transform="matrix(1,0,0,1,0,0)" opacity="1" style="display: block;"><g opacity="1" transform="matrix(1,0,0,1,24,26)"><path fill="rgb(255,201,40)" fill-opacity="1" d=" M16,-14 C16,-14 -16,-14 -16,-14 C-18.200000762939453,-14 -20,-12.199999809265137 -20,-10 C-20,-10 -20,10 -20,10 C-20,12.199999809265137 -18.200000762939453,14 -16,14 C-16,14 16,14 16,14 C18.200000762939453,14 20,12.199999809265137 20,10 C20,10 20,-10 20,-10 C20,-12.199999809265137 18.200000762939453,-14 16,-14z"></path></g></g></g></svg>`
@@ -45,103 +45,103 @@ const file_icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height=
 
 // Don't know new OS thing, so I just copied it from the original source code and edited something.
 const Os = {
-	isWindows: navigator.userAgent.toUpperCase().indexOf('WIN') > -1, // .includes
-	isMac: navigator.userAgent.toUpperCase().indexOf('MAC') > -1,
-	isMacLike: /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent),
-	isIos: /(iPhone|iPod|iPad)/i.test(navigator.userAgent),
-	isMobile: /Android|webOS|iPhone|iPad|iPod|iOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    isWindows: navigator.userAgent.toUpperCase().indexOf('WIN') > -1, // .includes
+    isMac: navigator.userAgent.toUpperCase().indexOf('MAC') > -1,
+    isMacLike: /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent),
+    isIos: /(iPhone|iPod|iPad)/i.test(navigator.userAgent),
+    isMobile: /Android|webOS|iPhone|iPad|iPod|iOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 };
 
 function getDocumentHeight() {
-	var D = document;
-	return Math.max(
-		D.body.scrollHeight, D.documentElement.scrollHeight,
-		D.body.offsetHeight, D.documentElement.offsetHeight,
-		D.body.clientHeight, D.documentElement.clientHeight
-	);
+    var D = document;
+    return Math.max(
+        D.body.scrollHeight, D.documentElement.scrollHeight,
+        D.body.offsetHeight, D.documentElement.offsetHeight,
+        D.body.clientHeight, D.documentElement.clientHeight
+    );
 }
 
 // get search params
 function getQueryVariable(variable) {
-	var query = window.location.search.substring(1);
-	var vars = query.split('&');
-	var pair;
-	for (var i = 0; i < vars.length; i++) {
-		pair = vars[i].split('=');
-		if (pair[0] == variable) {
-			return pair[1];
-		}
-	}
-	return (false);
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    var pair;
+    for (var i = 0; i < vars.length; i++) {
+        pair = vars[i].split('=');
+        if (pair[0] == variable) {
+            return pair[1];
+        }
+    }
+    return (false);
 }
 
 function render(path) {
-	if (path.indexOf("?") > 0) {
-		path = path.substr(0, path.indexOf("?"));
-	}
-	title(path);
-	nav(path);
-	// .../0: This
-	var reg = /\/\d+:$/g;
-	if (path.includes("/fallback")) {
-		// Used to store the state of some scroll events
-		window.scroll_status = {
-			// Whether the scroll event is bound
-			event_bound: false,
-			// "Scroll to the bottom, loading more data" event lock
-			loading_lock: false
-		};
-		const can_preview = getQueryVariable('a');
-		const id = getQueryVariable('id');
-		if (can_preview) {
-			return fallback(id, true)
-		} else {
-			return list(null, id, true);
-		}
-	} else if (window.MODEL.is_search_page) {
-		// Used to store the state of some scroll events
-		window.scroll_status = {
-			// Whether the scroll event is bound
-			event_bound: false,
-			// "Scroll to the bottom, loading more data" event lock
-			loading_lock: false
-		};
-		render_search_result_list()
-	} else if (path.match(reg) || path.slice(-1) == '/') {
-		// Used to store the state of some scroll events
-		window.scroll_status = {
-			// Whether the scroll event is bound
-			event_bound: false,
-			// "Scroll to the bottom, loading more data" event lock
-			loading_lock: false
-		};
-		list(path);
-	} else {
-		file(path);
-	}
+    if (path.indexOf("?") > 0) {
+        path = path.substr(0, path.indexOf("?"));
+    }
+    title(path);
+    nav(path);
+    // .../0: This
+    var reg = /\/\d+:$/g;
+    if (path.includes("/fallback")) {
+        // Used to store the state of some scroll events
+        window.scroll_status = {
+            // Whether the scroll event is bound
+            event_bound: false,
+            // "Scroll to the bottom, loading more data" event lock
+            loading_lock: false
+        };
+        const can_preview = getQueryVariable('a');
+        const id = getQueryVariable('id');
+        if (can_preview) {
+            return fallback(id, true)
+        } else {
+            return list(null, id, true);
+        }
+    } else if (window.MODEL.is_search_page) {
+        // Used to store the state of some scroll events
+        window.scroll_status = {
+            // Whether the scroll event is bound
+            event_bound: false,
+            // "Scroll to the bottom, loading more data" event lock
+            loading_lock: false
+        };
+        render_search_result_list()
+    } else if (path.match(reg) || path.slice(-1) == '/') {
+        // Used to store the state of some scroll events
+        window.scroll_status = {
+            // Whether the scroll event is bound
+            event_bound: false,
+            // "Scroll to the bottom, loading more data" event lock
+            loading_lock: false
+        };
+        list(path);
+    } else {
+        file(path);
+    }
 }
 
 
 // Render title
 function title(path) {
-	path = decodeURI(path);
-	var cur = window.current_drive_order || 0;
-	var drive_name = window.drive_names[cur];
-	path = path.replace(`/${cur}:`, '');
-	// $('title').html(document.siteName + ' - ' + path);
-	var model = window.MODEL;
-	if (model.is_search_page)
-		$('title').html(`${drive_name} - Search results for ${model.q} `);
-	else
-		$('title').html(`${drive_name} - ${path}`);
+    path = decodeURI(path);
+    var cur = window.current_drive_order || 0;
+    var drive_name = window.drive_names[cur];
+    path = path.replace(`/${cur}:`, '');
+    // $('title').html(document.siteName + ' - ' + path);
+    var model = window.MODEL;
+    if (model.is_search_page)
+        $('title').html(`${drive_name} - Search results for ${model.q} `);
+    else
+        $('title').html(`${drive_name} - ${path}`);
 }
 
 // Render the navigation bar
 function nav(path) {
-	var model = window.MODEL;
-	var html = "";
-	var cur = window.current_drive_order || 0;
-	html += `<nav class="navbar navbar-expand-lg${UI.fixed_header ?' fixed-top': ''} ${UI.header_style_class}">
+    var model = window.MODEL;
+    var html = "";
+    var cur = window.current_drive_order || 0;
+    html += `<nav class="navbar navbar-expand-lg${UI.fixed_header ?' fixed-top': ''} ${UI.header_style_class}">
     <div class="container-fluid">
   <a class="navbar-brand" href="/">${UI.logo_image ? '<img border="0" alt="'+UI.company_name+'" src="'+UI.logo_link_name+'" height="'+UI.logo_height+'" width="'+UI.logo_width+'">' : UI.logo_link_name}</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -152,23 +152,23 @@ function nav(path) {
       <li class="nav-item">
         <a class="nav-link" href="/${cur}:/">${UI.nav_link_1}</a>
       </li>`;
-	var names = window.drive_names;
-	var drive_name = window.drive_names[cur];
+    var names = window.drive_names;
+    var drive_name = window.drive_names[cur];
 
-	// Dropdown to select different drive roots.
-	html += `<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${drive_name}</a><div class="dropdown-menu" aria-labelledby="navbarDropdown">`;
-	names.forEach((name, idx) => {
-		html += `<a class="dropdown-item"  href="/${idx}:/">${name}</a>`;
-	});
-	html += `</div></li>`;
+    // Dropdown to select different drive roots.
+    html += `<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${drive_name}</a><div class="dropdown-menu" aria-labelledby="navbarDropdown">`;
+    names.forEach((name, idx) => {
+        html += `<a class="dropdown-item"  href="/${idx}:/">${name}</a>`;
+    });
+    html += `</div></li>`;
 
 
-	html += `<li class="nav-item">
+    html += `<li class="nav-item">
     <a class="nav-link" href="${UI.contact_link}" target="_blank">${UI.nav_link_4}</a>
   </li>${UI.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}`;
 
-	var search_text = model.is_search_page ? (model.q || '') : '';
-	var search_bar = `
+    var search_text = model.is_search_page ? (model.q || '') : '';
+    var search_bar = `
 </ul>
 <form class="d-flex" method="get" action="/${cur}:search">
 <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="${search_text}" required>
@@ -179,22 +179,22 @@ function nav(path) {
 </nav>
 `;
 
-	// Personal or team
-	if (model.root_type < 2) {
-		// Show search box
-		html += search_bar;
-	}
+    // Personal or team
+    if (model.root_type < 2) {
+        // Show search box
+        html += search_bar;
+    }
 
-	$('#nav').html(html);
+    $('#nav').html(html);
 }
 
 // Sleep Function to Retry API Calls
 function sleep(milliseconds) {
-	const date = Date.now();
-	let currentDate = null;
-	do {
-		currentDate = Date.now();
-	} while (currentDate - date < milliseconds);
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
 }
 
 /**
@@ -205,60 +205,60 @@ function sleep(milliseconds) {
  * @param authErrorCallback Pass Error Callback
  */
 function requestListPath(path, params, resultCallback, authErrorCallback, retries = 3, fallback = false) {
-	var requestData = {
-		id: params['id'] || '',
-		type: 'folder',
-		password: params['password'] || '',
-		page_token: params['page_token'] || '',
-		page_index: params['page_index'] || 0
-	};
-	$('#update').show();
-	document.getElementById('update').innerHTML = `<div class='alert alert-info' role='alert'> Connecting...</div></div></div>`;
-	if (fallback) {
-		path = "/0:fallback"
-	}
+    var requestData = {
+        id: params['id'] || '',
+        type: 'folder',
+        password: params['password'] || '',
+        page_token: params['page_token'] || '',
+        page_index: params['page_index'] || 0
+    };
+    $('#update').show();
+    document.getElementById('update').innerHTML = `<div class='alert alert-info' role='alert'> Connecting...</div></div></div>`;
+    if (fallback) {
+        path = "/0:fallback"
+    }
 
-	function performRequest() {
-		fetch(fallback ? "/0:fallback" : path, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(requestData)
-			})
-			.then(function(response) {
-				if (!response.ok) {
-					throw new Error('Request failed');
-				}
-				return response.json();
-			})
-			.then(function(res) {
-				if (res && res.error && res.error.code === 401) {
-					// Password verification failed
-					askPassword(path);
-				} else if (res && res.data === null) {
-					document.getElementById('spinner').remove();
-					document.getElementById('list').innerHTML = `<div class='alert alert-danger' role='alert'> Server didn't send any data.</div></div></div>`;
-					$('#update').hide();
-				} else if (res && res.data) {
-					resultCallback(res, path, requestData);
-					$('#update').hide();
-				}
-			})
-			.catch(function(error) {
-				if (retries > 0) {
-					sleep(2000);
-					document.getElementById('update').innerHTML = `<div class='alert alert-info' role='alert'> Retrying...</div></div></div>`;
-					performRequest(path, requestData, resultCallback, authErrorCallback, retries - 1);
-				} else {
-					document.getElementById('update').innerHTML = `<div class='alert alert-danger' role='alert'> Unable to get data from the server. Something went wrong.</div></div></div>`;
-					document.getElementById('list').innerHTML = `<div class='alert alert-danger' role='alert'> We were unable to get data from the server. ` + error + `</div></div></div>`;
-					$('#update').hide();
-				}
-			});
-	}
-	console.log("Performing Request again")
-	performRequest();
+    function performRequest() {
+        fetch(fallback ? "/0:fallback" : path, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Request failed');
+                }
+                return response.json();
+            })
+            .then(function(res) {
+                if (res && res.error && res.error.code === 401) {
+                    // Password verification failed
+                    askPassword(path);
+                } else if (res && res.data === null) {
+                    document.getElementById('spinner').remove();
+                    document.getElementById('list').innerHTML = `<div class='alert alert-danger' role='alert'> Server didn't send any data.</div></div></div>`;
+                    $('#update').hide();
+                } else if (res && res.data) {
+                    resultCallback(res, path, requestData);
+                    $('#update').hide();
+                }
+            })
+            .catch(function(error) {
+                if (retries > 0) {
+                    sleep(2000);
+                    document.getElementById('update').innerHTML = `<div class='alert alert-info' role='alert'> Retrying...</div></div></div>`;
+                    performRequest(path, requestData, resultCallback, authErrorCallback, retries - 1);
+                } else {
+                    document.getElementById('update').innerHTML = `<div class='alert alert-danger' role='alert'> Unable to get data from the server. Something went wrong.</div></div></div>`;
+                    document.getElementById('list').innerHTML = `<div class='alert alert-danger' role='alert'> We were unable to get data from the server. ` + error + `</div></div></div>`;
+                    $('#update').hide();
+                }
+            });
+    }
+    console.log("Performing Request again")
+    performRequest();
 }
 
 
@@ -270,59 +270,59 @@ function requestListPath(path, params, resultCallback, authErrorCallback, retrie
  * @param resultCallback Success callback
  */
 function requestSearch(params, resultCallback, retries = 3) {
-	var p = {
-		q: params['q'] || null,
-		page_token: params['page_token'] || null,
-		page_index: params['page_index'] || 0
-	};
+    var p = {
+        q: params['q'] || null,
+        page_token: params['page_token'] || null,
+        page_index: params['page_index'] || 0
+    };
 
-	function performRequest(retries) {
-		fetch(`/${window.current_drive_order}:search`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(p)
-			})
-			.then(function(response) {
-				if (!response.ok) {
-					throw new Error('Request failed');
-				}
-				return response.json();
-			})
-			.then(function(res) {
-				if (res && res.data === null) {
-					$('#spinner').remove();
-					$('#list').html(`<div class='alert alert-danger' role='alert'> Server didn't send any data.</div></div></div>`);
-					$('#update').remove();
-				}
-				if (res && res.data) {
-					if (resultCallback) resultCallback(res, p);
-					$('#update').remove();
-				}
-			})
-			.catch(function(error) {
-				if (retries > 0) {
-					sleep(2000);
-					$('#update').html(`<div class='alert alert-info' role='alert'> Retrying...</div></div></div>`);
-					performRequest(retries - 1);
-				} else {
-					$('#update').html(`<div class='alert alert-danger' role='alert'> Unable to get data from the server. Something went wrong. 3 Failures</div></div></div>`);
-					$('#list').html(`<div class='alert alert-danger' role='alert'> We were unable to get data from the server.</div></div></div>`);
-					$('#spinner').remove();
-				}
-			});
-	}
+    function performRequest(retries) {
+        fetch(`/${window.current_drive_order}:search`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(p)
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Request failed');
+                }
+                return response.json();
+            })
+            .then(function(res) {
+                if (res && res.data === null) {
+                    $('#spinner').remove();
+                    $('#list').html(`<div class='alert alert-danger' role='alert'> Server didn't send any data.</div></div></div>`);
+                    $('#update').remove();
+                }
+                if (res && res.data) {
+                    if (resultCallback) resultCallback(res, p);
+                    $('#update').remove();
+                }
+            })
+            .catch(function(error) {
+                if (retries > 0) {
+                    sleep(2000);
+                    $('#update').html(`<div class='alert alert-info' role='alert'> Retrying...</div></div></div>`);
+                    performRequest(retries - 1);
+                } else {
+                    $('#update').html(`<div class='alert alert-danger' role='alert'> Unable to get data from the server. Something went wrong. 3 Failures</div></div></div>`);
+                    $('#list').html(`<div class='alert alert-danger' role='alert'> We were unable to get data from the server.</div></div></div>`);
+                    $('#spinner').remove();
+                }
+            });
+    }
 
-	$('#update').html(`<div class='alert alert-info' role='alert'> Connecting...</div></div></div>`);
-	performRequest(retries);
+    $('#update').html(`<div class='alert alert-info' role='alert'> Connecting...</div></div></div>`);
+    performRequest(retries);
 }
 
 
 // Render file list
 function list(path, id = '', fallback = false) {
-	console.log(id);
-	var containerContent = `<div class="container">${UI.fixed_header ?'<br>': ''}
+    console.log(id);
+    var containerContent = `<div class="container">${UI.fixed_header ?'<br>': ''}
     <div id="update"></div>
     <div id="head_md" style="display:none; padding: 20px 20px;"></div>
     <div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
@@ -339,29 +339,29 @@ function list(path, id = '', fallback = false) {
         <ol class="breadcrumb" id="folderne">
           <li class="breadcrumb-item"><a href="/">Home</a></li>`;
 
-	var navfulllink = window.location.pathname;
-	var navarray = navfulllink.trim('/').split('/');
-	var currentPath = '/';
+    var navfulllink = window.location.pathname;
+    var navarray = navfulllink.trim('/').split('/');
+    var currentPath = '/';
 
-	if (navarray.length > 1) {
-		for (var i in navarray) {
-			var pathPart = navarray[i];
-			var decodedPathPart = decodeURIComponent(pathPart).replace(/\//g, '%2F');
-			var trimmedPathPart = decodedPathPart.replace(/\?.+/g, "$'");
+    if (navarray.length > 1) {
+        for (var i in navarray) {
+            var pathPart = navarray[i];
+            var decodedPathPart = decodeURIComponent(pathPart).replace(/\//g, '%2F');
+            var trimmedPathPart = decodedPathPart.replace(/\?.+/g, "$'");
 
-			var displayedPathPart = trimmedPathPart.length > 15 ? trimmedPathPart.slice(0, 5) + '...' : trimmedPathPart.slice(0, 15);
+            var displayedPathPart = trimmedPathPart.length > 15 ? trimmedPathPart.slice(0, 5) + '...' : trimmedPathPart.slice(0, 15);
 
-			currentPath += pathPart + '/';
+            currentPath += pathPart + '/';
 
-			if (displayedPathPart === '') {
-				break;
-			}
+            if (displayedPathPart === '') {
+                break;
+            }
 
-			containerContent += `<li class="breadcrumb-item"><a href="${currentPath}">${displayedPathPart}</a></li>`;
-		}
-	}
+            containerContent += `<li class="breadcrumb-item"><a href="${currentPath}">${displayedPathPart}</a></li>`;
+        }
+    }
 
-	containerContent += `</ol>
+    containerContent += `</ol>
     </nav>
   </div>
   <div id="list" class="list-group text-break"></div>
@@ -369,160 +369,160 @@ function list(path, id = '', fallback = false) {
   <div id="readme_md" style="display:none; padding: 20px 20px;"></div>
 </div>`;
 
-	$('#content').html(containerContent);
+    $('#content').html(containerContent);
 
-	var password = localStorage.getItem('password' + path);
+    var password = localStorage.getItem('password' + path);
 
-	$('#list').html(`<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
-	$('#readme_md').hide().html('');
-	$('#head_md').hide().html('');
+    $('#list').html(`<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
+    $('#readme_md').hide().html('');
+    $('#head_md').hide().html('');
 
-	function handleSuccessResult(res, path, prevReqParams) {
-		console.log(res, path, prevReqParams);
-		$('#list')
-			.data('nextPageToken', res['nextPageToken'])
-			.data('curPageIndex', res['curPageIndex']);
+    function handleSuccessResult(res, path, prevReqParams) {
+        console.log(res, path, prevReqParams);
+        $('#list')
+            .data('nextPageToken', res['nextPageToken'])
+            .data('curPageIndex', res['curPageIndex']);
 
-		$('#spinner').remove();
+        $('#spinner').remove();
 
-		if (res['nextPageToken'] === null) {
-			$(window).off('scroll');
-			window.scroll_status.event_bound = false;
-			window.scroll_status.loading_lock = false;
-			if (fallback) {
-				append_files_to_fallback_list(path, res['data']['files']);
-			} else {
-				append_files_to_list(path, res['data']['files']);
-			}
-		} else {
-			console.log('doing something...')
-			if (fallback) {
-				append_files_to_fallback_list(path, res['data']['files']);
-			} else {
-				append_files_to_list(path, res['data']['files']);
-			}
-			if (window.scroll_status.event_bound !== true) {
-				$(window).on('scroll', function() {
-					var scrollTop = $(this).scrollTop();
-					var scrollHeight = getDocumentHeight();
-					var windowHeight = $(this).height();
+        if (res['nextPageToken'] === null) {
+            $(window).off('scroll');
+            window.scroll_status.event_bound = false;
+            window.scroll_status.loading_lock = false;
+            if (fallback) {
+                append_files_to_fallback_list(path, res['data']['files']);
+            } else {
+                append_files_to_list(path, res['data']['files']);
+            }
+        } else {
+            console.log('doing something...')
+            if (fallback) {
+                append_files_to_fallback_list(path, res['data']['files']);
+            } else {
+                append_files_to_list(path, res['data']['files']);
+            }
+            if (window.scroll_status.event_bound !== true) {
+                $(window).on('scroll', function() {
+                    var scrollTop = $(this).scrollTop();
+                    var scrollHeight = getDocumentHeight();
+                    var windowHeight = $(this).height();
 
-					if (scrollTop + windowHeight > scrollHeight - (Os.isMobile ? 130 : 80)) {
-						if (window.scroll_status.loading_lock === true) {
-							return;
-						}
+                    if (scrollTop + windowHeight > scrollHeight - (Os.isMobile ? 130 : 80)) {
+                        if (window.scroll_status.loading_lock === true) {
+                            return;
+                        }
 
-						window.scroll_status.loading_lock = true;
+                        window.scroll_status.loading_lock = true;
 
-						$(`<div id="spinner" class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`)
-							.insertBefore('#readme_md');
+                        $(`<div id="spinner" class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`)
+                            .insertBefore('#readme_md');
 
-						let $list = $('#list');
-						if (fallback) {
-							console.log('fallback inside handleSuccessResult');
-							requestListPath(path, {
-									id: id,
-									password: prevReqParams['password'],
-									page_token: $list.data('nextPageToken'),
-									page_index: $list.data('curPageIndex') + 1
-								},
-								handleSuccessResult,
-								null, 5, id, fallback = true);
-						} else {
-							requestListPath(path, {
-									password: prevReqParams['password'],
-									page_token: $list.data('nextPageToken'),
-									page_index: $list.data('curPageIndex') + 1
-								},
-								handleSuccessResult,
-								null);
-						}
-					}
-				});
+                        let $list = $('#list');
+                        if (fallback) {
+                            console.log('fallback inside handleSuccessResult');
+                            requestListPath(path, {
+                                    id: id,
+                                    password: prevReqParams['password'],
+                                    page_token: $list.data('nextPageToken'),
+                                    page_index: $list.data('curPageIndex') + 1
+                                },
+                                handleSuccessResult,
+                                null, 5, id, fallback = true);
+                        } else {
+                            requestListPath(path, {
+                                    password: prevReqParams['password'],
+                                    page_token: $list.data('nextPageToken'),
+                                    page_index: $list.data('curPageIndex') + 1
+                                },
+                                handleSuccessResult,
+                                null);
+                        }
+                    }
+                });
 
-				window.scroll_status.event_bound = true;
-			}
-		}
+                window.scroll_status.event_bound = true;
+            }
+        }
 
-		if (window.scroll_status.loading_lock === true) {
-			window.scroll_status.loading_lock = false;
-		}
-	}
-
-	if (fallback) {
-		console.log('fallback inside list');
-		requestListPath(path, {
-				id: id,
-				password: password
-			},
-			handleSuccessResult,
-			null, null, fallback = true);
-	} else {
-		console.log("handling this")
-		requestListPath(path, {
-				password: password
-			},
-			handleSuccessResult,
-			null);
-	}
-
-
-	const copyBtn = document.getElementById("handle-multiple-items-copy");
-
-	// Add a click event listener to the copy button
-	copyBtn.addEventListener("click", () => {
-		// Get all the checked checkboxes
-		const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked');
-
-		// Create an array to store the selected items' data
-		const selectedItemsData = [];
-
-		// Loop through each checked checkbox
-    if (checkedItems.length === 0) {
-      alert("No items selected!");
-      return;
+        if (window.scroll_status.loading_lock === true) {
+            window.scroll_status.loading_lock = false;
+        }
     }
-		checkedItems.forEach((item) => {
-			// Get the value of the checkbox (in this case, the URL)
-			const itemData = item.value;
-			// Push the value to the array
-			selectedItemsData.push(itemData);
-		});
 
-		// Join the selected items' data with a newline character
-		const dataToCopy = selectedItemsData.join("\n");
+    if (fallback) {
+        console.log('fallback inside list');
+        requestListPath(path, {
+                id: id,
+                password: password
+            },
+            handleSuccessResult,
+            null, null, fallback = true);
+    } else {
+        console.log("handling this")
+        requestListPath(path, {
+                password: password
+            },
+            handleSuccessResult,
+            null);
+    }
 
-		// Create a temporary input element
-		const tempInput = document.createElement("textarea");
-		tempInput.value = dataToCopy;
 
-		// Add the temporary input element to the document
-		document.body.appendChild(tempInput);
+    const copyBtn = document.getElementById("handle-multiple-items-copy");
 
-		// Select the text inside the temporary input element
-		tempInput.select();
+    // Add a click event listener to the copy button
+    copyBtn.addEventListener("click", () => {
+        // Get all the checked checkboxes
+        const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked');
 
-		// Copy the selected text to the clipboard
-		document.execCommand("copy");
+        // Create an array to store the selected items' data
+        const selectedItemsData = [];
 
-		// Remove the temporary input element from the document
-		document.body.removeChild(tempInput);
+        // Loop through each checked checkbox
+        if (checkedItems.length === 0) {
+            alert("No items selected!");
+            return;
+        }
+        checkedItems.forEach((item) => {
+            // Get the value of the checkbox (in this case, the URL)
+            const itemData = item.value;
+            // Push the value to the array
+            selectedItemsData.push(itemData);
+        });
 
-		// Alert the user that the data has been copied
-		alert("Selected items copied to clipboard!");
-	});
+        // Join the selected items' data with a newline character
+        const dataToCopy = selectedItemsData.join("\n");
+
+        // Create a temporary input element
+        const tempInput = document.createElement("textarea");
+        tempInput.value = dataToCopy;
+
+        // Add the temporary input element to the document
+        document.body.appendChild(tempInput);
+
+        // Select the text inside the temporary input element
+        tempInput.select();
+
+        // Copy the selected text to the clipboard
+        document.execCommand("copy");
+
+        // Remove the temporary input element from the document
+        document.body.removeChild(tempInput);
+
+        // Alert the user that the data has been copied
+        alert("Selected items copied to clipboard!");
+    });
 }
 
 function askPassword(path) {
-	$('#spinner').remove();
-	var passwordInput = prompt("Directory encryption, please enter the password", "");
-	localStorage.setItem('password' + path, passwordInput);
+    $('#spinner').remove();
+    var passwordInput = prompt("Directory encryption, please enter the password", "");
+    localStorage.setItem('password' + path, passwordInput);
 
-	if (passwordInput != null && passwordInput != "") {
-		list(path);
-	} else {
-		history.go(-1);
-	}
+    if (passwordInput != null && passwordInput != "") {
+        list(path);
+    } else {
+        history.go(-1);
+    }
 }
 
 /**
@@ -531,140 +531,140 @@ function askPassword(path) {
  * @param files request result
  */
 function append_files_to_fallback_list(path, files) {
-	try {
-		console.log('append_files_to_fallback_list');
-		var $list = $('#list');
-		// Is it the last page of data?
-		var is_lastpage_loaded = null === $list.data('nextPageToken');
-		var is_firstpage = '0' == $list.data('curPageIndex');
+    try {
+        console.log('append_files_to_fallback_list');
+        var $list = $('#list');
+        // Is it the last page of data?
+        var is_lastpage_loaded = null === $list.data('nextPageToken');
+        var is_firstpage = '0' == $list.data('curPageIndex');
 
-		html = "";
-		let targetFiles = [];
-		var totalsize = 0;
-		var is_file = false
-		for (i in files) {
-			var item = files[i];
-			var p = "/fallback?id=" + item.id
-			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
-			// replace / with %2F
-			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-				html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
-			} else {
-				var totalsize = totalsize + Number(item.size);
-				item['size'] = formatFileSize(item['size']);
-				var is_file = true
-				var epn = item.name;
-				var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
-				var pn = path + epn.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
-				var c = "file";
-				// README is displayed after the last page is loaded, otherwise it will affect the scroll event
-				if (is_lastpage_loaded && item.name == "README.md" && UI.render_readme_md) {
-					get_file(p, item, function(data) {
-						markdown("#readme_md", data);
-						$("img").addClass("img-fluid")
-					});
-				}
-				if (item.name == "HEAD.md" && UI.render_head_md) {
-					get_file(p, item, function(data) {
-						markdown("#head_md", data);
-						$("img").addClass("img-fluid")
-					});
-				}
-				var ext = item.fileExtension
-				//if ("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|avi|bmp|jpg|jpeg|png|gif|m4a|mp3|flac|wav|ogg|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|pdf|".indexOf(`|${ext}|`) >= 0) {
-				//targetFiles.push(filepath);
-				pn += "?a=view";
-				c += " view";
-				//}
-				html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
+        html = "";
+        let targetFiles = [];
+        var totalsize = 0;
+        var is_file = false
+        for (i in files) {
+            var item = files[i];
+            var p = "/fallback?id=" + item.id
+            item['modifiedTime'] = utc2delhi(item['modifiedTime']);
+            // replace / with %2F
+            if (item['mimeType'] == 'application/vnd.google-apps.folder') {
+                html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
+            } else {
+                var totalsize = totalsize + Number(item.size);
+                item['size'] = formatFileSize(item['size']);
+                var is_file = true
+                var epn = item.name;
+                var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
+                var pn = path + epn.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
+                var c = "file";
+                // README is displayed after the last page is loaded, otherwise it will affect the scroll event
+                if (is_lastpage_loaded && item.name == "README.md" && UI.render_readme_md) {
+                    get_file(p, item, function(data) {
+                        markdown("#readme_md", data);
+                        $("img").addClass("img-fluid")
+                    });
+                }
+                if (item.name == "HEAD.md" && UI.render_head_md) {
+                    get_file(p, item, function(data) {
+                        markdown("#head_md", data);
+                        $("img").addClass("img-fluid")
+                    });
+                }
+                var ext = item.fileExtension
+                //if ("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|avi|bmp|jpg|jpeg|png|gif|m4a|mp3|flac|wav|ogg|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|pdf|".indexOf(`|${ext}|`) >= 0) {
+                //targetFiles.push(filepath);
+                pn += "?a=view";
+                c += " view";
+                //}
+                html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
 
-				if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
-					html += video_icon
-				} else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
-					html += code_icon
-				} else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
-					html += zip_icon
-				} else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
-					html += image_icon
-				} else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
-					html += audio_icon
-				} else if ("|md|".indexOf(`|${ext}|`) >= 0) {
-					html += markdown_icon
-				} else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
-					html += pdf_icon
-				} else {
-					html += file_icon
-				}
+                if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
+                    html += video_icon
+                } else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
+                    html += code_icon
+                } else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
+                    html += zip_icon
+                } else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
+                    html += image_icon
+                } else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
+                    html += audio_icon
+                } else if ("|md|".indexOf(`|${ext}|`) >= 0) {
+                    html += markdown_icon
+                } else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
+                    html += pdf_icon
+                } else {
+                    html += file_icon
+                }
 
-				html += ` <a class="countitems size_items list-group-item-action" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${p}&a=view">${item.name}</a>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
-			}
-		}
-		if (is_file && UI.allow_selecting_files) {
-			document.getElementById('select_items').style.display = 'block';
-		}
+                html += ` <a class="countitems size_items list-group-item-action" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${p}&a=view">${item.name}</a>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
+            }
+        }
+        if (is_file && UI.allow_selecting_files) {
+            document.getElementById('select_items').style.display = 'block';
+        }
 
 
-		/*let targetObj = {};
-		targetFiles.forEach((myFilepath, myIndex) => {
-		    if (!targetObj[myFilepath]) {
-		        targetObj[myFilepath] = {
-		            filepath: myFilepath,
-		            prev: myIndex === 0 ? null : targetFiles[myIndex - 1],
-		            next: myIndex === targetFiles.length - 1 ? null : targetFiles[myIndex + 1],
-		        }
-		    }
-		})
-		// console.log(targetObj)
-		if (Object.keys(targetObj).length) {
-		    localStorage.setItem(path, JSON.stringify(targetObj));
-		    // console.log(path)
-		}*/
+        /*let targetObj = {};
+        targetFiles.forEach((myFilepath, myIndex) => {
+            if (!targetObj[myFilepath]) {
+                targetObj[myFilepath] = {
+                    filepath: myFilepath,
+                    prev: myIndex === 0 ? null : targetFiles[myIndex - 1],
+                    next: myIndex === targetFiles.length - 1 ? null : targetFiles[myIndex + 1],
+                }
+            }
+        })
+        // console.log(targetObj)
+        if (Object.keys(targetObj).length) {
+            localStorage.setItem(path, JSON.stringify(targetObj));
+            // console.log(path)
+        }*/
 
-		if (targetFiles.length > 0) {
-			let old = localStorage.getItem(path);
-			let new_children = targetFiles;
-			// Reset on page 1; otherwise append
-			if (!is_firstpage && old) {
-				let old_children;
-				try {
-					old_children = JSON.parse(old);
-					if (!Array.isArray(old_children)) {
-						old_children = []
-					}
-				} catch (e) {
-					old_children = [];
-				}
-				new_children = old_children.concat(targetFiles)
-			}
+        if (targetFiles.length > 0) {
+            let old = localStorage.getItem(path);
+            let new_children = targetFiles;
+            // Reset on page 1; otherwise append
+            if (!is_firstpage && old) {
+                let old_children;
+                try {
+                    old_children = JSON.parse(old);
+                    if (!Array.isArray(old_children)) {
+                        old_children = []
+                    }
+                } catch (e) {
+                    old_children = [];
+                }
+                new_children = old_children.concat(targetFiles)
+            }
 
-			localStorage.setItem(path, JSON.stringify(new_children))
-		}
+            localStorage.setItem(path, JSON.stringify(new_children))
+        }
 
-		// When it is page 1, remove the horizontal loading bar
-		$list.html(($list.data('curPageIndex') == '0' ? '' : $list.html()) + html);
-		// When it is the last page, count and display the total number of items
-		if (is_lastpage_loaded) {
-			total_size = formatFileSize(totalsize) || '0 Bytes';
-			total_items = $list.find('.countitems').length;
-			total_files = $list.find('.size_items').length;
-			if (total_items == 0) {
-				$('#count').removeClass('d-none').find('.number').text("Empty Folder");
-			} else if (total_items == 1) {
-				$('#count').removeClass('d-none').find('.number').text(total_items + " item");
-			} else {
-				$('#count').removeClass('d-none').find('.number').text(total_items + " items");
-			}
-			if (total_files == 0) {
-				$('#count').removeClass('d-none').find('.totalsize').text("Zero Files");
-			} else if (total_files == 1) {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
-			} else {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
-			}
-		}
-	} catch (e) {
-		console.log(e);
-	}
+        // When it is page 1, remove the horizontal loading bar
+        $list.html(($list.data('curPageIndex') == '0' ? '' : $list.html()) + html);
+        // When it is the last page, count and display the total number of items
+        if (is_lastpage_loaded) {
+            total_size = formatFileSize(totalsize) || '0 Bytes';
+            total_items = $list.find('.countitems').length;
+            total_files = $list.find('.size_items').length;
+            if (total_items == 0) {
+                $('#count').removeClass('d-none').find('.number').text("Empty Folder");
+            } else if (total_items == 1) {
+                $('#count').removeClass('d-none').find('.number').text(total_items + " item");
+            } else {
+                $('#count').removeClass('d-none').find('.number').text(total_items + " items");
+            }
+            if (total_files == 0) {
+                $('#count').removeClass('d-none').find('.totalsize').text("Zero Files");
+            } else if (total_files == 1) {
+                $('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
+            } else {
+                $('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
+            }
+        }
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 /**
@@ -673,144 +673,144 @@ function append_files_to_fallback_list(path, files) {
  * @param files request result
  */
 function append_files_to_list(path, files) {
-	var $list = $('#list');
-	// Is it the last page of data?
-	var is_lastpage_loaded = null === $list.data('nextPageToken');
-	var is_firstpage = '0' == $list.data('curPageIndex');
+    var $list = $('#list');
+    // Is it the last page of data?
+    var is_lastpage_loaded = null === $list.data('nextPageToken');
+    var is_firstpage = '0' == $list.data('curPageIndex');
 
-	html = "";
-	let targetFiles = [];
-	var totalsize = 0;
-	var is_file = false
-	for (i in files) {
-		var item = files[i];
-		var ep = encodeURIComponent(item.name).replace(/\//g, '%2F') + '/';
-		var p = path + ep.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
-		item['modifiedTime'] = utc2delhi(item['modifiedTime']);
-		// replace / with %2F
-		if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-			html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
-		} else {
-			var totalsize = totalsize + Number(item.size);
-			item['size'] = formatFileSize(item['size']);
-			var is_file = true
-			var epn = item.name;
-			var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
-			var pn = path + epn.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
-			var c = "file";
-			// README is displayed after the last page is loaded, otherwise it will affect the scroll event
-			if (is_lastpage_loaded && item.name == "README.md" && UI.render_readme_md) {
-				get_file(p, item, function(data) {
-					markdown("#readme_md", data);
-					$("img").addClass("img-fluid")
-				});
-			}
-			if (item.name == "HEAD.md" && UI.render_head_md) {
-				get_file(p, item, function(data) {
-					markdown("#head_md", data);
-					$("img").addClass("img-fluid")
-				});
-			}
-			var ext = item.fileExtension
-      console.log(ext)
-			//if ("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|avi|bmp|jpg|jpeg|png|gif|m4a|mp3|flac|wav|ogg|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|pdf|".indexOf(`|${ext}|`) >= 0) {
-			//targetFiles.push(filepath);
-			pn += "?a=view";
-			c += " view";
-			//}
-			html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
+    html = "";
+    let targetFiles = [];
+    var totalsize = 0;
+    var is_file = false
+    for (i in files) {
+        var item = files[i];
+        var ep = encodeURIComponent(item.name).replace(/\//g, '%2F') + '/';
+        var p = path + ep.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
+        item['modifiedTime'] = utc2delhi(item['modifiedTime']);
+        // replace / with %2F
+        if (item['mimeType'] == 'application/vnd.google-apps.folder') {
+            html += `<a href="${p}" style="color: ${UI.folder_text_color};" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
+        } else {
+            var totalsize = totalsize + Number(item.size);
+            item['size'] = formatFileSize(item['size']);
+            var is_file = true
+            var epn = item.name;
+            var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
+            var pn = path + epn.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
+            var c = "file";
+            // README is displayed after the last page is loaded, otherwise it will affect the scroll event
+            if (is_lastpage_loaded && item.name == "README.md" && UI.render_readme_md) {
+                get_file(p, item, function(data) {
+                    markdown("#readme_md", data);
+                    $("img").addClass("img-fluid")
+                });
+            }
+            if (item.name == "HEAD.md" && UI.render_head_md) {
+                get_file(p, item, function(data) {
+                    markdown("#head_md", data);
+                    $("img").addClass("img-fluid")
+                });
+            }
+            var ext = item.fileExtension
+            console.log(ext)
+            //if ("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|avi|bmp|jpg|jpeg|png|gif|m4a|mp3|flac|wav|ogg|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|pdf|".indexOf(`|${ext}|`) >= 0) {
+            //targetFiles.push(filepath);
+            pn += "?a=view";
+            c += " view";
+            //}
+            html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
 
-      if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
-        html += video_icon
-      } else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
-        html += code_icon
-      } else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
-        html += zip_icon
-      } else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
-        html += image_icon
-      } else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
-        html += audio_icon
-      } else if ("|md|".indexOf(`|${ext}|`) >= 0) {
-        html += markdown_icon
-      } else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
-        html += pdf_icon
-      } else {
-        html += file_icon
-      }
+            if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
+                html += video_icon
+            } else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
+                html += code_icon
+            } else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
+                html += zip_icon
+            } else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
+                html += image_icon
+            } else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
+                html += audio_icon
+            } else if ("|md|".indexOf(`|${ext}|`) >= 0) {
+                html += markdown_icon
+            } else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
+                html += pdf_icon
+            } else {
+                html += file_icon
+            }
 
-			html += ` <a class="countitems size_items list-group-item-action" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}">${item.name}</a>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
-		}
-	}
-	if (is_file && UI.allow_selecting_files) {
-		document.getElementById('select_items').style.display = 'block';
-	}
+            html += ` <a class="countitems size_items list-group-item-action" style="text-decoration: none; color: ${UI.css_a_tag_color};" href="${pn}">${item.name}</a>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
+        }
+    }
+    if (is_file && UI.allow_selecting_files) {
+        document.getElementById('select_items').style.display = 'block';
+    }
 
 
-	/*let targetObj = {};
-	targetFiles.forEach((myFilepath, myIndex) => {
-	    if (!targetObj[myFilepath]) {
-	        targetObj[myFilepath] = {
-	            filepath: myFilepath,
-	            prev: myIndex === 0 ? null : targetFiles[myIndex - 1],
-	            next: myIndex === targetFiles.length - 1 ? null : targetFiles[myIndex + 1],
-	        }
-	    }
-	})
-	// console.log(targetObj)
-	if (Object.keys(targetObj).length) {
-	    localStorage.setItem(path, JSON.stringify(targetObj));
-	    // console.log(path)
-	}*/
+    /*let targetObj = {};
+    targetFiles.forEach((myFilepath, myIndex) => {
+        if (!targetObj[myFilepath]) {
+            targetObj[myFilepath] = {
+                filepath: myFilepath,
+                prev: myIndex === 0 ? null : targetFiles[myIndex - 1],
+                next: myIndex === targetFiles.length - 1 ? null : targetFiles[myIndex + 1],
+            }
+        }
+    })
+    // console.log(targetObj)
+    if (Object.keys(targetObj).length) {
+        localStorage.setItem(path, JSON.stringify(targetObj));
+        // console.log(path)
+    }*/
 
-	if (targetFiles.length > 0) {
-		let old = localStorage.getItem(path);
-		let new_children = targetFiles;
-		// Reset on page 1; otherwise append
-		if (!is_firstpage && old) {
-			let old_children;
-			try {
-				old_children = JSON.parse(old);
-				if (!Array.isArray(old_children)) {
-					old_children = []
-				}
-			} catch (e) {
-				old_children = [];
-			}
-			new_children = old_children.concat(targetFiles)
-		}
+    if (targetFiles.length > 0) {
+        let old = localStorage.getItem(path);
+        let new_children = targetFiles;
+        // Reset on page 1; otherwise append
+        if (!is_firstpage && old) {
+            let old_children;
+            try {
+                old_children = JSON.parse(old);
+                if (!Array.isArray(old_children)) {
+                    old_children = []
+                }
+            } catch (e) {
+                old_children = [];
+            }
+            new_children = old_children.concat(targetFiles)
+        }
 
-		localStorage.setItem(path, JSON.stringify(new_children))
-	}
+        localStorage.setItem(path, JSON.stringify(new_children))
+    }
 
-	// When it is page 1, remove the horizontal loading bar
-	$list.html(($list.data('curPageIndex') == '0' ? '' : $list.html()) + html);
-	// When it is the last page, count and display the total number of items
-	if (is_lastpage_loaded) {
-		total_size = formatFileSize(totalsize) || '0 Bytes';
-		total_items = $list.find('.countitems').length;
-		total_files = $list.find('.size_items').length;
-		if (total_items == 0) {
-			$('#count').removeClass('d-none').find('.number').text("Empty Folder");
-		} else if (total_items == 1) {
-			$('#count').removeClass('d-none').find('.number').text(total_items + " item");
-		} else {
-			$('#count').removeClass('d-none').find('.number').text(total_items + " items");
-		}
-		if (total_files == 0) {
-			$('#count').removeClass('d-none').find('.totalsize').text("Zero Files");
-		} else if (total_files == 1) {
-			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
-		} else {
-			$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
-		}
-	}
+    // When it is page 1, remove the horizontal loading bar
+    $list.html(($list.data('curPageIndex') == '0' ? '' : $list.html()) + html);
+    // When it is the last page, count and display the total number of items
+    if (is_lastpage_loaded) {
+        total_size = formatFileSize(totalsize) || '0 Bytes';
+        total_items = $list.find('.countitems').length;
+        total_files = $list.find('.size_items').length;
+        if (total_items == 0) {
+            $('#count').removeClass('d-none').find('.number').text("Empty Folder");
+        } else if (total_items == 1) {
+            $('#count').removeClass('d-none').find('.number').text(total_items + " item");
+        } else {
+            $('#count').removeClass('d-none').find('.number').text(total_items + " items");
+        }
+        if (total_files == 0) {
+            $('#count').removeClass('d-none').find('.totalsize').text("Zero Files");
+        } else if (total_files == 1) {
+            $('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
+        } else {
+            $('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
+        }
+    }
 }
 
 /**
  * Render the search results list. There is a lot of repetitive code, but there are different logics in it.
  */
 function render_search_result_list() {
-	var content = `
+    var content = `
   <div class="container"><br>
   <div id="update"></div>
   <div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
@@ -831,127 +831,127 @@ function render_search_result_list() {
   <div id="readme_md" style="display:none; padding: 20px 20px;"></div>
   </div>
   `;
-	$('#content').html(content);
+    $('#content').html(content);
 
-	$('#list').html(`<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
-	$('#readme_md').hide().html('');
-	$('#head_md').hide().html('');
+    $('#list').html(`<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
+    $('#readme_md').hide().html('');
+    $('#head_md').hide().html('');
 
-	/**
-	 * Callback after successful search request returns data
-	 * The result returned by @param res (object)
-	 * @param path the requested path
-	 * @param prevReqParams parameters used in request
-	 */
-	function searchSuccessCallback(res, prevReqParams) {
+    /**
+     * Callback after successful search request returns data
+     * The result returned by @param res (object)
+     * @param path the requested path
+     * @param prevReqParams parameters used in request
+     */
+    function searchSuccessCallback(res, prevReqParams) {
 
-		// Temporarily store nextPageToken and currentPageIndex in the list element
-		$('#list')
-			.data('nextPageToken', res['nextPageToken'])
-			.data('curPageIndex', res['curPageIndex']);
+        // Temporarily store nextPageToken and currentPageIndex in the list element
+        $('#list')
+            .data('nextPageToken', res['nextPageToken'])
+            .data('curPageIndex', res['curPageIndex']);
 
-		// Remove loading spinner
-		$('#spinner').remove();
+        // Remove loading spinner
+        $('#spinner').remove();
 
-		if (res['nextPageToken'] === null) {
-			// If it is the last page, unbind the scroll event, reset scroll_status, and append the data
-			$(window).off('scroll');
-			window.scroll_status.event_bound = false;
-			window.scroll_status.loading_lock = false;
-			append_search_result_to_list(res['data']['files']);
-		} else {
-			// If it is not the last page, append data and bind the scroll event (if not already bound), update scroll_status
-			append_search_result_to_list(res['data']['files']);
-			if (window.scroll_status.event_bound !== true) {
-				// Bind event, if not yet bound
-				$(window).on('scroll', function() {
-					var scrollTop = $(this).scrollTop();
-					var scrollHeight = getDocumentHeight();
-					var windowHeight = $(this).height();
-					// Roll to the bottom
-					if (scrollTop + windowHeight > scrollHeight - (Os.isMobile ? 130 : 80)) {
-						/*
+        if (res['nextPageToken'] === null) {
+            // If it is the last page, unbind the scroll event, reset scroll_status, and append the data
+            $(window).off('scroll');
+            window.scroll_status.event_bound = false;
+            window.scroll_status.loading_lock = false;
+            append_search_result_to_list(res['data']['files']);
+        } else {
+            // If it is not the last page, append data and bind the scroll event (if not already bound), update scroll_status
+            append_search_result_to_list(res['data']['files']);
+            if (window.scroll_status.event_bound !== true) {
+                // Bind event, if not yet bound
+                $(window).on('scroll', function() {
+                    var scrollTop = $(this).scrollTop();
+                    var scrollHeight = getDocumentHeight();
+                    var windowHeight = $(this).height();
+                    // Roll to the bottom
+                    if (scrollTop + windowHeight > scrollHeight - (Os.isMobile ? 130 : 80)) {
+                        /*
      When the event of scrolling to the bottom is triggered, if it is already loading at this time, the event is ignored;
                  Otherwise, go to loading and occupy the loading lock, indicating that loading is in progress
              */
-						if (window.scroll_status.loading_lock === true) {
-							return;
-						}
-						window.scroll_status.loading_lock = true;
+                        if (window.scroll_status.loading_lock === true) {
+                            return;
+                        }
+                        window.scroll_status.loading_lock = true;
 
-						// Show a loading spinner
-						$(`<div id="spinner" class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`)
-							.insertBefore('#readme_md');
+                        // Show a loading spinner
+                        $(`<div id="spinner" class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`)
+                            .insertBefore('#readme_md');
 
-						let $list = $('#list');
-						requestSearch({
-								q: window.MODEL.q,
-								page_token: $list.data('nextPageToken'),
-								// Request next page
-								page_index: $list.data('curPageIndex') + 1
-							},
-							searchSuccessCallback
-						)
-					}
-				});
-				window.scroll_status.event_bound = true
-			}
-		}
+                        let $list = $('#list');
+                        requestSearch({
+                                q: window.MODEL.q,
+                                page_token: $list.data('nextPageToken'),
+                                // Request next page
+                                page_index: $list.data('curPageIndex') + 1
+                            },
+                            searchSuccessCallback
+                        )
+                    }
+                });
+                window.scroll_status.event_bound = true
+            }
+        }
 
-		// After loading successfully and rendering new data successfully, release the loading lock so that you can continue to process the "scroll to bottom" event
-		if (window.scroll_status.loading_lock === true) {
-			window.scroll_status.loading_lock = false
-		}
-	}
-
-	// Start requesting data from page 1
-	requestSearch({
-		q: window.MODEL.q
-	}, searchSuccessCallback);
-
-	const copyBtn = document.getElementById("handle-multiple-items-copy");
-
-	// Add a click event listener to the copy button
-	copyBtn.addEventListener("click", () => {
-		// Get all the checked checkboxes
-		const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked');
-
-		// Create an array to store the selected items' data
-		const selectedItemsData = [];
-    if (checkedItems.length === 0) {
-      alert("No items selected!");
-      return;
+        // After loading successfully and rendering new data successfully, release the loading lock so that you can continue to process the "scroll to bottom" event
+        if (window.scroll_status.loading_lock === true) {
+            window.scroll_status.loading_lock = false
+        }
     }
-		// Loop through each checked checkbox
-		checkedItems.forEach((item) => {
-			// Get the value of the checkbox (in this case, the URL)
-			const itemData = item.value;
-			// Push the value to the array
-			selectedItemsData.push(itemData);
-		});
 
-		// Join the selected items' data with a newline character
-		const dataToCopy = selectedItemsData.join("\n");
+    // Start requesting data from page 1
+    requestSearch({
+        q: window.MODEL.q
+    }, searchSuccessCallback);
 
-		// Create a temporary input element
-		const tempInput = document.createElement("textarea");
-		tempInput.value = dataToCopy;
+    const copyBtn = document.getElementById("handle-multiple-items-copy");
 
-		// Add the temporary input element to the document
-		document.body.appendChild(tempInput);
+    // Add a click event listener to the copy button
+    copyBtn.addEventListener("click", () => {
+        // Get all the checked checkboxes
+        const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked');
 
-		// Select the text inside the temporary input element
-		tempInput.select();
+        // Create an array to store the selected items' data
+        const selectedItemsData = [];
+        if (checkedItems.length === 0) {
+            alert("No items selected!");
+            return;
+        }
+        // Loop through each checked checkbox
+        checkedItems.forEach((item) => {
+            // Get the value of the checkbox (in this case, the URL)
+            const itemData = item.value;
+            // Push the value to the array
+            selectedItemsData.push(itemData);
+        });
 
-		// Copy the selected text to the clipboard
-		document.execCommand("copy");
+        // Join the selected items' data with a newline character
+        const dataToCopy = selectedItemsData.join("\n");
 
-		// Remove the temporary input element from the document
-		document.body.removeChild(tempInput);
+        // Create a temporary input element
+        const tempInput = document.createElement("textarea");
+        tempInput.value = dataToCopy;
 
-		// Alert the user that the data has been copied
-		alert("Selected items copied to clipboard!");
-	});
+        // Add the temporary input element to the document
+        document.body.appendChild(tempInput);
+
+        // Select the text inside the temporary input element
+        tempInput.select();
+
+        // Copy the selected text to the clipboard
+        document.execCommand("copy");
+
+        // Remove the temporary input element from the document
+        document.body.removeChild(tempInput);
+
+        // Alert the user that the data has been copied
+        alert("Selected items copied to clipboard!");
+    });
 }
 
 /**
@@ -959,83 +959,83 @@ function render_search_result_list() {
  * @param files
  */
 function append_search_result_to_list(files) {
-	try {
-		var cur = window.current_drive_order || 0;
-		var $list = $('#list');
-		// Is it the last page of data?
-		var is_lastpage_loaded = null === $list.data('nextPageToken');
-		// var is_firstpage = '0' == $list.data('curPageIndex');
+    try {
+        var cur = window.current_drive_order || 0;
+        var $list = $('#list');
+        // Is it the last page of data?
+        var is_lastpage_loaded = null === $list.data('nextPageToken');
+        // var is_firstpage = '0' == $list.data('curPageIndex');
 
-		html = "";
-		var totalsize = 0;
-		var is_file = false;
-		for (i in files) {
-			var item = files[i];
-			if (item['size'] == undefined) {
-				item['size'] = "";
-			}
+        html = "";
+        var totalsize = 0;
+        var is_file = false;
+        for (i in files) {
+            var item = files[i];
+            if (item['size'] == undefined) {
+                item['size'] = "";
+            }
 
-			item['modifiedTime'] = utc2delhi(item['modifiedTime']);
-			if (item['mimeType'] == 'application/vnd.google-apps.folder') {
-				html += `<a style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
-			} else {
-				var is_file = true;
-				var totalsize = totalsize + Number(item.size);
-				item['size'] = formatFileSize(item['size']);
-				var ext = item.fileExtension
-				var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
-				html += `<div style="color: ${UI.css_a_tag_color};" gd-type="$item['mimeType']}" class="countitems size_items list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
+            item['modifiedTime'] = utc2delhi(item['modifiedTime']);
+            if (item['mimeType'] == 'application/vnd.google-apps.folder') {
+                html += `<a style="color: ${UI.folder_text_color};" onclick="onSearchResultItemClick('${item['id']}', false)" data-bs-toggle="modal" data-bs-target="#SearchModel" class="countitems list-group-item list-group-item-action"> ${folder_icon} ${item.name} ${UI.display_time ? `<span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</a>`;
+            } else {
+                var is_file = true;
+                var totalsize = totalsize + Number(item.size);
+                item['size'] = formatFileSize(item['size']);
+                var ext = item.fileExtension
+                var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
+                html += `<div style="color: ${UI.css_a_tag_color};" gd-type="$item['mimeType']}" class="countitems size_items list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
 
-				if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
-					html += video_icon
-				} else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
-					html += code_icon
-				} else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
-					html += zip_icon
-				} else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
-					html += image_icon
-				} else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
-					html += audio_icon
-				} else if ("|md|".indexOf(`|${ext}|`) >= 0) {
-					html += markdown_icon
-				} else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
-					html += pdf_icon
-				} else {
-					html += file_icon
-				}
+                if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
+                    html += video_icon
+                } else if ("|html|php|css|go|java|js|json|txt|sh|".indexOf(`|${ext}|`) >= 0) {
+                    html += code_icon
+                } else if ("|zip|rar|tar|.7z|.gz|".indexOf(`|${ext}|`) >= 0) {
+                    html += zip_icon
+                } else if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
+                    html += image_icon
+                } else if ("|m4a|mp3|flac|wav|ogg|".indexOf(`|${ext}|`) >= 0) {
+                    html += audio_icon
+                } else if ("|md|".indexOf(`|${ext}|`) >= 0) {
+                    html += markdown_icon
+                } else if ("|pdf|".indexOf(`|${ext}|`) >= 0) {
+                    html += pdf_icon
+                } else {
+                    html += file_icon
+                }
 
-				html += ` <span onclick="onSearchResultItemClick('${item['id']}', true)" data-bs-toggle="modal" data-bs-target="#SearchModel">${item.name}</span>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}<span class="badge float-end csize"> ${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
+                html += ` <span onclick="onSearchResultItemClick('${item['id']}', true)" data-bs-toggle="modal" data-bs-target="#SearchModel">${item.name}</span>${UI.display_download ? `<a href="${link}"><svg class="float-end"width="25px" style="margin-left: 8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path> </svg></a>` : ``}<span class="badge float-end csize"> ${UI.display_size ? `<span class="badge bg-primary float-end"> ` + item['size'] + ` </span>` : ``}${UI.display_time ? ` <span class="badge bg-info float-end"> ` + item['modifiedTime'] + ` </span>` : ``}</div>`;
 
-			}
-		}
-		if (is_file && UI.allow_selecting_files) {
-			document.getElementById('select_items').style.display = 'block';
-		}
-		// When it is page 1, remove the horizontal loading bar
-		$list.html(($list.data('curPageIndex') == '0' ? '' : $list.html()) + html);
-		// When it is the last page, count and display the total number of items
-		if (is_lastpage_loaded) {
-			total_size = formatFileSize(totalsize) || '0 Bytes';
-			total_items = $list.find('.countitems').length;
-			total_files = $list.find('.size_items').length;
-			if (total_items == 0) {
-				$('#count').removeClass('d-none').find('.number').text("No Results");
-			} else if (total_items == 1) {
-				$('#count').removeClass('d-none').find('.number').text(total_items + " item");
-			} else {
-				$('#count').removeClass('d-none').find('.number').text(total_items + " items");
-			}
-			if (total_files == 0) {
-				$('#count').removeClass('d-none').find('.totalsize').text("Found Nothing");
-			} else if (total_files == 1) {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
-			} else {
-				$('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
-			}
-		}
-	} catch (e) {
-		console.log(e);
-	}
+            }
+        }
+        if (is_file && UI.allow_selecting_files) {
+            document.getElementById('select_items').style.display = 'block';
+        }
+        // When it is page 1, remove the horizontal loading bar
+        $list.html(($list.data('curPageIndex') == '0' ? '' : $list.html()) + html);
+        // When it is the last page, count and display the total number of items
+        if (is_lastpage_loaded) {
+            total_size = formatFileSize(totalsize) || '0 Bytes';
+            total_items = $list.find('.countitems').length;
+            total_files = $list.find('.size_items').length;
+            if (total_items == 0) {
+                $('#count').removeClass('d-none').find('.number').text("No Results");
+            } else if (total_items == 1) {
+                $('#count').removeClass('d-none').find('.number').text(total_items + " item");
+            } else {
+                $('#count').removeClass('d-none').find('.number').text(total_items + " items");
+            }
+            if (total_files == 0) {
+                $('#count').removeClass('d-none').find('.totalsize').text("Found Nothing");
+            } else if (total_files == 1) {
+                $('#count').removeClass('d-none').find('.totalsize').text(total_files + " File with Size " + total_size);
+            } else {
+                $('#count').removeClass('d-none').find('.totalsize').text(total_files + " Files with Size " + total_size);
+            }
+        }
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 /**
@@ -1043,114 +1043,114 @@ function append_search_result_to_list(files) {
  * @param a_ele Clicked element
  */
 function onSearchResultItemClick(file_id, can_preview) {
-	var cur = window.current_drive_order;
-	var title = `Loading...`;
-	$('#SearchModelLabel').html(title);
-	var content = `<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div>`;
-	$('#modal-body-space').html(content);
-	var p = {
-		id: file_id
-	};
-	// Request a path
-	fetch(`/${cur}:id2path`, {
-			method: 'POST',
-			body: JSON.stringify(p),
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			}
-		})
-		.then(function(response) {
-			if (response.ok) {
-				return response.json();
-			} else {
-				throw new Error('Request failed.');
-			}
-		})
-		.then(function(obj) {
-			var href = `${obj.path}`;
-			var encodedUrl = href.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F')
-			title = `Result`;
-			$('#SearchModelLabel').html(title);
-			content = `<a class="btn btn-info" href="${encodedUrl}${can_preview ? '?a=view' : ''}">Open</a> <a class="btn btn-secondary" href="${encodedUrl}${can_preview ? '?a=view' : ''}" target="_blank">Open in New Tab</a>`;
-			$('#modal-body-space').html(content);
-		})
-		.catch(function(error) {
-			console.log(error);
-			var link = ""
-			title = `Fallback Method`;
-			$('#SearchModelLabel').html(title);
-			content = `<a class="btn btn-info" href="/fallback?id=${file_id}&${can_preview ? 'a=view' : ''}">Open</a> <a class="btn btn-secondary" href="/fallback?id=${file_id}&${can_preview ? 'a=view' : ''}" target="_blank">Open in New Tab</a>`;
-			$('#modal-body-space').html(content);
-		});
+    var cur = window.current_drive_order;
+    var title = `Loading...`;
+    $('#SearchModelLabel').html(title);
+    var content = `<div class="d-flex justify-content-center"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div>`;
+    $('#modal-body-space').html(content);
+    var p = {
+        id: file_id
+    };
+    // Request a path
+    fetch(`/${cur}:id2path`, {
+            method: 'POST',
+            body: JSON.stringify(p),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Request failed.');
+            }
+        })
+        .then(function(obj) {
+            var href = `${obj.path}`;
+            var encodedUrl = href.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F')
+            title = `Result`;
+            $('#SearchModelLabel').html(title);
+            content = `<a class="btn btn-info" href="${encodedUrl}${can_preview ? '?a=view' : ''}">Open</a> <a class="btn btn-secondary" href="${encodedUrl}${can_preview ? '?a=view' : ''}" target="_blank">Open in New Tab</a>`;
+            $('#modal-body-space').html(content);
+        })
+        .catch(function(error) {
+            console.log(error);
+            var link = ""
+            title = `Fallback Method`;
+            $('#SearchModelLabel').html(title);
+            content = `<a class="btn btn-info" href="/fallback?id=${file_id}&${can_preview ? 'a=view' : ''}">Open</a> <a class="btn btn-secondary" href="/fallback?id=${file_id}&${can_preview ? 'a=view' : ''}" target="_blank">Open in New Tab</a>`;
+            $('#modal-body-space').html(content);
+        });
 }
 
 function get_file(path, file, callback) {
-	var key = "file_path_" + path + file['modifiedTime'];
-	var data = localStorage.getItem(key);
-	if (data != undefined) {
-		return callback(data);
-	} else {
-		$.get(path, function(d) {
-			localStorage.setItem(key, d);
-			callback(d);
-		});
-	}
+    var key = "file_path_" + path + file['modifiedTime'];
+    var data = localStorage.getItem(key);
+    if (data != undefined) {
+        return callback(data);
+    } else {
+        $.get(path, function(d) {
+            localStorage.setItem(key, d);
+            callback(d);
+        });
+    }
 }
 
 async function fallback(id, type) {
-	if (type) { // is a file id
-		var cookie_folder_id = await getCookie("root_id") || '';
-		$('#content').html(`<div class="d-flex justify-content-center" style="height: 150px"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
-		fetch("/0:fallback", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					id
-				}),
-			})
-			.then(function(response) {
-				if (!response.ok) {
-					throw new Error("Request failed");
-				}
-				return response.json();
-			})
-			.then(function(obj) {
-				console.log(obj);
-				var mimeType = obj.mimeType;
-				var fileExtension = obj.fileExtension
-				const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
-				const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
-				const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
-				const image = ["bmp", "jpg", "jpeg", "png", "gif", "svg", "tiff", "ico"];
-				const pdf = ["pdf"];
-				if (mimeType === "application/vnd.google-apps.folder") {
-					window.location.href = window.location.pathname + "/";
-				} else if (fileExtension) {
-					const name = obj.name;
-					const encoded_name = encodeURIComponent(name);
-					const size = formatFileSize(obj.size);
-					const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
-					const file_id = obj.id;
-					if (mimeType.includes("video") || video.includes(fileExtension)) {
-						const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
-						file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
-					} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-						file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
-					} else if (mimeType.includes("image") || image.includes(fileExtension)) {
-						file_image(name, encoded_name, size, url, file_id, cookie_folder_id);
-					} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
-						file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id);
-					} else if (code.includes(fileExtension)) {
-						file_code(name, encoded_name, size, url, file_id, cookie_folder_id);
-					} else {
-						file_others(name, encoded_name, size, url, file_id, cookie_folder_id);
-					}
-				}
-			})
-			.catch(function(error) {
-				var content = `
+    if (type) { // is a file id
+        var cookie_folder_id = await getCookie("root_id") || '';
+        $('#content').html(`<div class="d-flex justify-content-center" style="height: 150px"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
+        fetch("/0:fallback", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id
+                }),
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error("Request failed");
+                }
+                return response.json();
+            })
+            .then(function(obj) {
+                console.log(obj);
+                var mimeType = obj.mimeType;
+                var fileExtension = obj.fileExtension
+                const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
+                const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
+                const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
+                const image = ["bmp", "jpg", "jpeg", "png", "gif", "svg", "tiff", "ico"];
+                const pdf = ["pdf"];
+                if (mimeType === "application/vnd.google-apps.folder") {
+                    window.location.href = window.location.pathname + "/";
+                } else if (fileExtension) {
+                    const name = obj.name;
+                    const encoded_name = encodeURIComponent(name);
+                    const size = formatFileSize(obj.size);
+                    const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
+                    const file_id = obj.id;
+                    if (mimeType.includes("video") || video.includes(fileExtension)) {
+                        const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
+                        file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
+                    } else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
+                        file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
+                    } else if (mimeType.includes("image") || image.includes(fileExtension)) {
+                        file_image(name, encoded_name, size, url, file_id, cookie_folder_id);
+                    } else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
+                        file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id);
+                    } else if (code.includes(fileExtension)) {
+                        file_code(name, encoded_name, size, url, file_id, cookie_folder_id);
+                    } else {
+                        file_others(name, encoded_name, size, url, file_id, cookie_folder_id);
+                    }
+                }
+            })
+            .catch(function(error) {
+                var content = `
           <div class="container"><br>
           <div class="card text-center">
             <div class="card-body text-center">
@@ -1164,68 +1164,68 @@ async function fallback(id, type) {
             </div><br>
           </div>
         </div>`;
-				$("#content").html(content);
-			});
-	} else { // is a folder id
-		return list(id, true);
-	}
+                $("#content").html(content);
+            });
+    } else { // is a folder id
+        return list(id, true);
+    }
 }
 
 // File display ?a=view
 async function file(path) {
-	var cookie_folder_id = await getCookie("root_id") || '';
-	var name = path.split('/').pop();
-	$('#content').html(`<div class="d-flex justify-content-center" style="height: 150px"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
-	fetch("", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				path: path
-			}),
-		})
-		.then(function(response) {
-			if (!response.ok) {
-				throw new Error("Request failed");
-			}
-			return response.json();
-		})
-		.then(function(obj) {
-			console.log(obj);
-			var mimeType = obj.mimeType;
-			var fileExtension = obj.fileExtension
-			const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
-			const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
-			const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
-			const image = ["bmp", "jpg", "jpeg", "png", "gif", "svg", "tiff", "ico"];
-			const pdf = ["pdf"];
-			if (mimeType === "application/vnd.google-apps.folder") {
-				window.location.href = window.location.pathname + "/";
-			} else if (fileExtension) {
-				const name = obj.name;
-				const encoded_name = encodeURIComponent(name);
-				const size = formatFileSize(obj.size);
-				const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
-				const file_id = obj.id;
-				if (mimeType.includes("video") || video.includes(fileExtension)) {
-					const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
-					file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
-				} else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
-					file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
-				} else if (mimeType.includes("image") || image.includes(fileExtension)) {
-					file_image(name, encoded_name, size, url, file_id, cookie_folder_id);
-				} else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
-					file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id);
-				} else if (code.includes(fileExtension)) {
-					file_code(name, encoded_name, size, url, file_id, cookie_folder_id);
-				} else {
-					file_others(name, encoded_name, size, url, file_id, cookie_folder_id);
-				}
-			}
-		})
-		.catch(function(error) {
-			var content = `
+    var cookie_folder_id = await getCookie("root_id") || '';
+    var name = path.split('/').pop();
+    $('#content').html(`<div class="d-flex justify-content-center" style="height: 150px"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
+    fetch("", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                path: path
+            }),
+        })
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error("Request failed");
+            }
+            return response.json();
+        })
+        .then(function(obj) {
+            console.log(obj);
+            var mimeType = obj.mimeType;
+            var fileExtension = obj.fileExtension
+            const code = ["php", "css", "go", "java", "js", "json", "txt", "sh", "md", "html", "xml", "py", "rb", "c", "cpp", "h", "hpp"];
+            const video = ["mp4", "webm", "avi", "mpg", "mpeg", "mkv", "rm", "rmvb", "mov", "wmv", "asf", "ts", "flv", "3gp", "m4v"];
+            const audio = ["mp3", "flac", "wav", "ogg", "m4a", "aac", "wma", "alac"];
+            const image = ["bmp", "jpg", "jpeg", "png", "gif", "svg", "tiff", "ico"];
+            const pdf = ["pdf"];
+            if (mimeType === "application/vnd.google-apps.folder") {
+                window.location.href = window.location.pathname + "/";
+            } else if (fileExtension) {
+                const name = obj.name;
+                const encoded_name = encodeURIComponent(name);
+                const size = formatFileSize(obj.size);
+                const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
+                const file_id = obj.id;
+                if (mimeType.includes("video") || video.includes(fileExtension)) {
+                    const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
+                    file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
+                } else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
+                    file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
+                } else if (mimeType.includes("image") || image.includes(fileExtension)) {
+                    file_image(name, encoded_name, size, url, file_id, cookie_folder_id);
+                } else if (mimeType.includes("pdf") || pdf.includes(fileExtension)) {
+                    file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id);
+                } else if (code.includes(fileExtension)) {
+                    file_code(name, encoded_name, size, url, file_id, cookie_folder_id);
+                } else {
+                    file_others(name, encoded_name, size, url, file_id, cookie_folder_id);
+                }
+            }
+        })
+        .catch(function(error) {
+            var content = `
           <div class="container"><br>
           <div class="card text-center">
             <div class="card-body text-center">
@@ -1239,50 +1239,36 @@ async function file(path) {
             </div><br>
           </div>
         </div>`;
-			$("#content").html(content);
-		});
+            $("#content").html(content);
+        });
 }
-
-const copyButton = `<button onclick="copyFunction()" onmouseout="outFunc()" class="btn btn-success"> <span class="tooltiptext" id="myTooltip">Copy</span> </button>`
-
-function generateCopyFileBox(file_id, cookie_folder_id) {
-	const copyFileBox = `<div class="row justify-content-center mt-3" id="copyresult">
-  <div class="col-12 col-md-8" id="copystatus"><div class='alert alert-secondary' role='alert'> Send Request to Copy File </div></div>
-  <div class="col-12 col-md-8"> <input id="user_folder_id" type="text" class="form-control" placeholder="Enter Your Folder ID to Copy this File" value="${cookie_folder_id}" required></div>
-  <div class="col-12 col-md-8 mt-2"> <button id="copy_file" onclick="copyFile('${file_id}')" style="margin-top: 5px;" class="btn btn-danger btn-block">Copy File to Own Drive</button></div>
-  </div>`;
-
-	return copyFileBox;
-}
-
 // Document display |zip|.exe/others direct downloads
 function file_others(name, encoded_name, size, url, file_id, cookie_folder_id) {
-	// Split the file path into parts
-	var path = window.location.pathname;
-	var pathParts = path.split('/');
-	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
-	// Generate the navigation based on path parts
-	var navigation = '';
-	var new_path = '';
-	for (var i = 0; i < pathParts.length; i++) {
-		var part = pathParts[i];
-		if (i == pathParts.length - 1) {
-			new_path += part + '?a=view'
-		} else {
-			new_path += part + '/'
-		}
-		if (part.length > 15) {
-			part = decodeURIComponent(part);
-			part = part.substring(0, 10) + '...';
-		}
-		if (part == '') {
-			part = 'Home'
-		}
-		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
-	}
+    // Split the file path into parts
+    var path = window.location.pathname;
+    var pathParts = path.split('/');
+    // Generate the navigation based on path parts
+    var navigation = '';
+    var new_path = '';
+    for (var i = 0; i < pathParts.length; i++) {
+        var part = pathParts[i];
+        if (i == pathParts.length - 1) {
+            new_path += part + '?a=view'
+        } else {
+            new_path += part + '/'
+        }
+        if (part.length > 15) {
+            part = decodeURIComponent(part);
+            part = part.substring(0, 10) + '...';
+        }
+        if (part == '') {
+            part = 'Home'
+        }
+        navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+    }
 
-	// Add the container and card elements
-	var content = `
+    // Add the container and card elements
+    var content = `
     <div class="container"><br>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -1309,52 +1295,50 @@ function file_others(name, encoded_name, size, url, file_id, cookie_folder_id) {
                   <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
                 </div>
             </div>
-            ` + copyButton + copyFileBox+`
             </div>
             <br></div>`;
-	$("#content").html(content);
+    $("#content").html(content);
 }
 
 function file_code(name, encoded_name, size, bytes, url, ext, file_id, cookie_folder_id) {
-	var type = {
-		"html": "html",
-		"php": "php",
-		"css": "css",
-		"go": "golang",
-		"java": "java",
-		"js": "javascript",
-		"json": "json",
-		"txt": "Text",
-		"sh": "sh",
-		"md": "Markdown",
-	};
+    var type = {
+        "html": "html",
+        "php": "php",
+        "css": "css",
+        "go": "golang",
+        "java": "java",
+        "js": "javascript",
+        "json": "json",
+        "txt": "Text",
+        "sh": "sh",
+        "md": "Markdown",
+    };
 
-	// Split the file path into parts
-	var path = window.location.pathname;
-	var pathParts = path.split('/');
-	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
-	// Generate the navigation based on path parts
-	var navigation = '';
-	var new_path = '';
-	for (var i = 0; i < pathParts.length; i++) {
-		var part = pathParts[i];
-		if (i == pathParts.length - 1) {
-			new_path += part + '?a=view'
-		} else {
-			new_path += part + '/'
-		}
-		if (part.length > 15) {
-			part = decodeURIComponent(part);
-			part = part.substring(0, 10) + '...';
-		}
-		if (part == '') {
-			part = 'Home'
-		}
-		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
-	}
+    // Split the file path into parts
+    var path = window.location.pathname;
+    var pathParts = path.split('/');
+    // Generate the navigation based on path parts
+    var navigation = '';
+    var new_path = '';
+    for (var i = 0; i < pathParts.length; i++) {
+        var part = pathParts[i];
+        if (i == pathParts.length - 1) {
+            new_path += part + '?a=view'
+        } else {
+            new_path += part + '/'
+        }
+        if (part.length > 15) {
+            part = decodeURIComponent(part);
+            part = part.substring(0, 10) + '...';
+        }
+        if (part == '') {
+            part = 'Home'
+        }
+        navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+    }
 
-	// Add the container and card elements
-	var content = `
+    // Add the container and card elements
+    var content = `
     <div class="container"><br>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -1366,8 +1350,8 @@ function file_code(name, encoded_name, size, bytes, url, ext, file_id, cookie_fo
           <div class="${UI.file_view_alert_class}" id="file_details" role="alert">${name}<br>${size}</div>
         </div>
         <div id="code_spinner"></div>` +
-		(UI.second_domain_for_dl ? `` : `<pre class="line-numbers language-markup" data-src="plugins/line-numbers/index.html" data-start="-5" style="white-space: pre-wrap; counter-reset: linenumber -6;" data-src-status="loaded" tabindex="0"><code id="editor"></code></pre>`) +
-		`<div class="card-body">
+        (UI.second_domain_for_dl ? `` : `<pre class="line-numbers language-markup" data-src="plugins/line-numbers/index.html" data-start="-5" style="white-space: pre-wrap; counter-reset: linenumber -6;" data-src-status="loaded" tabindex="0"><code id="editor"></code></pre>`) +
+        `<div class="card-body">
           <div class="input-group mb-4">
             <input type="text" class="form-control" id="dlurl" value="${url}" readonly>
           </div>
@@ -1383,88 +1367,86 @@ function file_code(name, encoded_name, size, bytes, url, ext, file_id, cookie_fo
                 <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
               </div>
             </div>
-            ` + copyButton + copyFileBox + `
           </div>
           <br>
         </div>
       </div>
     </div>`;
 
-	$('#content').html(content);
-	var spinner = '<div class="d-flex justify-content-center"><div class="spinner-border m-5" role="status"><span class="sr-only"></span></div></div>';
-	$("#code_spinner").html(spinner);
-	if (bytes <= 1024 * 1024 * 2) {
-		$.get(url, function(data) {
-			$('#editor').html($('<div/>').text(data).html());
-			$("#code_spinner").html("");
-			var code_type = "Text";
-			if (type[ext] != undefined) {
-				code_type = type[ext];
-			}
-		});
-	} else {
-		$("#code_spinner").html("");
-		$('#editor').html(`<div class="${UI.file_view_alert_class}" id="file_details" role="alert">File size is too large to preview, Max Limit is 2 MB</div>`);
-	}
+    $('#content').html(content);
+    var spinner = '<div class="d-flex justify-content-center"><div class="spinner-border m-5" role="status"><span class="sr-only"></span></div></div>';
+    $("#code_spinner").html(spinner);
+    if (bytes <= 1024 * 1024 * 2) {
+        $.get(url, function(data) {
+            $('#editor').html($('<div/>').text(data).html());
+            $("#code_spinner").html("");
+            var code_type = "Text";
+            if (type[ext] != undefined) {
+                code_type = type[ext];
+            }
+        });
+    } else {
+        $("#code_spinner").html("");
+        $('#editor').html(`<div class="${UI.file_view_alert_class}" id="file_details" role="alert">File size is too large to preview, Max Limit is 2 MB</div>`);
+    }
 }
 
 
 
 // Document display video |mp4|webm|avi|
 function file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id) {
-	var url_base64 = btoa(url);
-	// Split the file path into parts
-	var path = window.location.pathname;
-	var pathParts = path.split('/');
-	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
-	// Generate the navigation based on path parts
-	var navigation = '';
-	var new_path = '';
-	for (var i = 0; i < pathParts.length; i++) {
-		var part = pathParts[i];
-		if (i == pathParts.length - 1) {
-			new_path += part + '?a=view'
-		} else {
-			new_path += part + '/'
-		}
-		if (part.length > 15) {
-			part = decodeURIComponent(part);
-			part = part.substring(0, 10) + '...';
-		}
-		if (part == '') {
-			part = 'Home'
-		}
-		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
-	}
-	let player
-	if (!UI.disable_player) {
-		if (player_config.player == "plyr") {
-			player = `<video id="player" playsinline controls data-poster="${poster}">
+    var url_base64 = btoa(url);
+    // Split the file path into parts
+    var path = window.location.pathname;
+    var pathParts = path.split('/');
+    // Generate the navigation based on path parts
+    var navigation = '';
+    var new_path = '';
+    for (var i = 0; i < pathParts.length; i++) {
+        var part = pathParts[i];
+        if (i == pathParts.length - 1) {
+            new_path += part + '?a=view'
+        } else {
+            new_path += part + '/'
+        }
+        if (part.length > 15) {
+            part = decodeURIComponent(part);
+            part = part.substring(0, 10) + '...';
+        }
+        if (part == '') {
+            part = 'Home'
+        }
+        navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+    }
+    let player
+    if (!UI.disable_player) {
+        if (player_config.player == "plyr") {
+            player = `<video id="player" playsinline controls data-poster="${poster}">
       <source src="${url}" type="video/mp4" />
       <source src="${url}" type="video/webm" />
         </video>`
-			player_js = 'https://cdn.plyr.io/' + player_config.plyr_io_version + '/plyr.polyfilled.js'
-			player_css = 'https://cdn.plyr.io/' + player_config.plyr_io_version + '/plyr.css'
-		} else if (player_config.player == "videojs") {
-			player = `<video id="vplayer" poster="${poster}" muted=true class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%" data-setup='{"fluid": true}' style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000;">
+            player_js = 'https://cdn.plyr.io/' + player_config.plyr_io_version + '/plyr.polyfilled.js'
+            player_css = 'https://cdn.plyr.io/' + player_config.plyr_io_version + '/plyr.css'
+        } else if (player_config.player == "videojs") {
+            player = `<video id="vplayer" poster="${poster}" muted=true class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%" data-setup='{"fluid": true}' style="--plyr-captions-text-color: #ffffff;--plyr-captions-background: #000000;">
       <source src="${url}" type="video/mp4" />
       <source src="${url}" type="video/webm" />
       <source src="${url}" type="video/avi" />
     </video>`
-			player_js = 'https://vjs.zencdn.net/' + player_config.videojs_version + '/video.js'
-			player_css = 'https://vjs.zencdn.net/' + player_config.videojs_version + '/video-js.css'
-		} else if (player_config.player == "dplayer") {
-			player = `<div id="player-container"></div>`
-			player_js = 'https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js'
-			player_css = 'https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css'
-		} else if (player_config.player == "jwplayer") {
-			player = `<div id="player"></div>`
-			player_js = 'https://content.jwplatform.com/libraries/IDzF9Zmk.js'
-			player_css = ''
-		}
-	}
-	// Add the container and card elements
-	var content = `
+            player_js = 'https://vjs.zencdn.net/' + player_config.videojs_version + '/video.js'
+            player_css = 'https://vjs.zencdn.net/' + player_config.videojs_version + '/video-js.css'
+        } else if (player_config.player == "dplayer") {
+            player = `<div id="player-container"></div>`
+            player_js = 'https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js'
+            player_css = 'https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css'
+        } else if (player_config.player == "jwplayer") {
+            player = `<div id="player"></div>`
+            player_js = 'https://content.jwplatform.com/libraries/IDzF9Zmk.js'
+            player_css = ''
+        }
+    }
+    // Add the container and card elements
+    var content = `
     <div class="container text-center"><br>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -1499,100 +1481,97 @@ function file_video(name, encoded_name, size, poster, url, mimeType, file_id, co
               <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM (Lite)</a>
               <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
               </div>
-          </div>
-          `+copyButton+copyFileBox+`
-          
+          </div>          
           </div>
           </div>
           `}
       </div>
     </div>
   `;
-	$("#content").html(content);
+    $("#content").html(content);
 
-	// Load Video.js and initialize the player
-	var videoJsScript = document.createElement('script');
-	videoJsScript.src = player_js;
-	videoJsScript.onload = function() {
-		// Video.js is loaded, initialize the player
-		if (player_config.player == "plyr") {
-			const player = new Plyr('#player');
-		} else if (player_config.player == "videojs") {
-			const player = new videojs('vplayer');
-		} else if (player_config.player == "dplayer") {
-			const dp = new DPlayer({
-				container: document.getElementById('player-container'),
-				screenshot: true,
-				video: {
-					url: url,
-					pic: poster,
-					thumbnails: poster,
-				},
-			});
-		} else if (player_config.player == "jwplayer") {
-			jwplayer("player").setup({
-				file: url,
-				type: mimeType,
-				autostart: false,
-				image: poster,
-				width: "100%",
-				aspectratio: "16:9",
-				title: name,
-				description: "Powered by Google Drive Index",
-				tracks: [{
-					file: url,
-					kind: "captions",
-					label: "Default",
-					"default": true,
-				}],
-				captions: {
-					color: "#f3f378",
-					fontSize: 14,
-					backgroundOpacity: 50,
-					edgeStyle: "raised",
-				},
-			});
-		}
+    // Load Video.js and initialize the player
+    var videoJsScript = document.createElement('script');
+    videoJsScript.src = player_js;
+    videoJsScript.onload = function() {
+        // Video.js is loaded, initialize the player
+        if (player_config.player == "plyr") {
+            const player = new Plyr('#player');
+        } else if (player_config.player == "videojs") {
+            const player = new videojs('vplayer');
+        } else if (player_config.player == "dplayer") {
+            const dp = new DPlayer({
+                container: document.getElementById('player-container'),
+                screenshot: true,
+                video: {
+                    url: url,
+                    pic: poster,
+                    thumbnails: poster,
+                },
+            });
+        } else if (player_config.player == "jwplayer") {
+            jwplayer("player").setup({
+                file: url,
+                type: mimeType,
+                autostart: false,
+                image: poster,
+                width: "100%",
+                aspectratio: "16:9",
+                title: name,
+                description: "Powered by Google Drive Index",
+                tracks: [{
+                    file: url,
+                    kind: "captions",
+                    label: "Default",
+                    "default": true,
+                }],
+                captions: {
+                    color: "#f3f378",
+                    fontSize: 14,
+                    backgroundOpacity: 50,
+                    edgeStyle: "raised",
+                },
+            });
+        }
 
-	};
-	document.head.appendChild(videoJsScript);
+    };
+    document.head.appendChild(videoJsScript);
 
-	var videoJsStylesheet = document.createElement('link');
-	videoJsStylesheet.href = player_css;
-	videoJsStylesheet.rel = 'stylesheet';
-	document.head.appendChild(videoJsStylesheet);
+    var videoJsStylesheet = document.createElement('link');
+    videoJsStylesheet.href = player_css;
+    videoJsStylesheet.rel = 'stylesheet';
+    document.head.appendChild(videoJsStylesheet);
 }
 
 
 // File display Audio |mp3|flac|m4a|wav|ogg|
 function file_audio(name, encoded_name, size, url, file_id, cookie_folder_id) {
-	var url_base64 = btoa(url);
-	// Split the file path into parts
-	var path = window.location.pathname;
-	var pathParts = path.split('/');
-	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
-	// Generate the navigation based on path parts
-	var navigation = '';
-	var new_path = '';
-	for (var i = 0; i < pathParts.length; i++) {
-		var part = pathParts[i];
-		if (i == pathParts.length - 1) {
-			new_path += part + '?a=view'
-		} else {
-			new_path += part + '/'
-		}
-		if (part.length > 15) {
-			part = decodeURIComponent(part);
-			part = part.substring(0, 10) + '...';
-		}
-		if (part == '') {
-			part = 'Home'
-		}
-		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
-	}
+    var url_base64 = btoa(url);
+    // Split the file path into parts
+    var path = window.location.pathname;
+    var pathParts = path.split('/');
+    // Generate the navigation based on path parts
+    var navigation = '';
+    var new_path = '';
+    for (var i = 0; i < pathParts.length; i++) {
+        var part = pathParts[i];
+        if (i == pathParts.length - 1) {
+            new_path += part + '?a=view'
+        } else {
+            new_path += part + '/'
+        }
+        if (part.length > 15) {
+            part = decodeURIComponent(part);
+            part = part.substring(0, 10) + '...';
+        }
+        if (part == '') {
+            part = 'Home'
+        }
+        navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+    }
 
-	// Add the container and card elements
-	var content = `
+    // Add the container and card elements
+    var content = `
     <div class="container text-center"><br>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -1635,7 +1614,6 @@ function file_audio(name, encoded_name, size, url, file_id, cookie_folder_id) {
               <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
               </div>
           </div>
-          `+copyButton+copyFileBox+`
           <br>
           </div>
           </div>
@@ -1643,53 +1621,52 @@ function file_audio(name, encoded_name, size, url, file_id, cookie_folder_id) {
       </div>
     </div>
   `;
-	$("#content").html(content);
+    $("#content").html(content);
 
-	// Load Video.js and initialize the player
-	var videoJsScript = document.createElement('script');
-	videoJsScript.src = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video.min.js';
-	videoJsScript.onload = function() {
-		// Video.js is loaded, initialize the player
-		const player = videojs('aplayer');
-	};
-	document.head.appendChild(videoJsScript);
+    // Load Video.js and initialize the player
+    var videoJsScript = document.createElement('script');
+    videoJsScript.src = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video.min.js';
+    videoJsScript.onload = function() {
+        // Video.js is loaded, initialize the player
+        const player = videojs('aplayer');
+    };
+    document.head.appendChild(videoJsScript);
 
-	var videoJsStylesheet = document.createElement('link');
-	videoJsStylesheet.href = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video-js.css';
-	videoJsStylesheet.rel = 'stylesheet';
-	document.head.appendChild(videoJsStylesheet);
+    var videoJsStylesheet = document.createElement('link');
+    videoJsStylesheet.href = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video-js.css';
+    videoJsStylesheet.rel = 'stylesheet';
+    document.head.appendChild(videoJsStylesheet);
 }
 
 
 
 // Document display pdf
 function file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id) {
-	// Split the file path into parts
-	var path = window.location.pathname;
-	var pathParts = path.split('/');
-	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
-	// Generate the navigation based on path parts
-	var navigation = '';
-	var new_path = '';
-	for (var i = 0; i < pathParts.length; i++) {
-		var part = pathParts[i];
-		if (i == pathParts.length - 1) {
-			new_path += part + '?a=view'
-		} else {
-			new_path += part + '/'
-		}
-		if (part.length > 15) {
-			part = decodeURIComponent(part);
-			part = part.substring(0, 10) + '...';
-		}
-		if (part == '') {
-			part = 'Home'
-		}
-		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
-	}
+    // Split the file path into parts
+    var path = window.location.pathname;
+    var pathParts = path.split('/');
+    // Generate the navigation based on path parts
+    var navigation = '';
+    var new_path = '';
+    for (var i = 0; i < pathParts.length; i++) {
+        var part = pathParts[i];
+        if (i == pathParts.length - 1) {
+            new_path += part + '?a=view'
+        } else {
+            new_path += part + '/'
+        }
+        if (part.length > 15) {
+            part = decodeURIComponent(part);
+            part = part.substring(0, 10) + '...';
+        }
+        if (part == '') {
+            part = 'Home'
+        }
+        navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+    }
 
-	// Add the container and card elements
-	var content = `
+    // Add the container and card elements
+    var content = `
     <div class="container text-center"><br>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -1719,7 +1696,6 @@ function file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id) {
             <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
         </div>
     </div>
-    ` + copyButton + `
     </div>
     <br>
     
@@ -1727,37 +1703,36 @@ function file_pdf(name, encoded_name, size, url, file_id, cookie_folder_id) {
     </div>
     </div>  
   `;
-	$("#content").html(content);
+    $("#content").html(content);
 }
 
 // image display
 function file_image(name, encoded_name, size, url, file_id, cookie_folder_id) {
-	// Split the file path into parts
-	var path = window.location.pathname;
-	var pathParts = path.split('/');
-	const copyFileBox = UI.allow_file_copy ? generateCopyFileBox(file_id, cookie_folder_id) : '';
-	// Generate the navigation based on path parts
-	var navigation = '';
-	var new_path = '';
-	for (var i = 0; i < pathParts.length; i++) {
-		var part = pathParts[i];
-		if (i == pathParts.length - 1) {
-			new_path += part + '?a=view'
-		} else {
-			new_path += part + '/'
-		}
-		if (part.length > 15) {
-			part = decodeURIComponent(part);
-			part = part.substring(0, 10) + '...';
-		}
-		if (part == '') {
-			part = 'Home'
-		}
-		navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
-	}
+    // Split the file path into parts
+    var path = window.location.pathname;
+    var pathParts = path.split('/');
+    // Generate the navigation based on path parts
+    var navigation = '';
+    var new_path = '';
+    for (var i = 0; i < pathParts.length; i++) {
+        var part = pathParts[i];
+        if (i == pathParts.length - 1) {
+            new_path += part + '?a=view'
+        } else {
+            new_path += part + '/'
+        }
+        if (part.length > 15) {
+            part = decodeURIComponent(part);
+            part = part.substring(0, 10) + '...';
+        }
+        if (part == '') {
+            part = 'Home'
+        }
+        navigation += '<a href="' + new_path + '" class="breadcrumb-item">' + part + '</a>';
+    }
 
-	// Add the container and card elements // wait until image is loaded and then hide spinner
-	var content = `
+    // Add the container and card elements // wait until image is loaded and then hide spinner
+    var content = `
     <div class="container text-center"><br>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -1788,201 +1763,200 @@ function file_image(name, encoded_name, size, url, file_id, cookie_folder_id) {
                 <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encoded_name};end">1DM+ (Plus)</a>
               </div>
             </div>
-            ` + copyButton + copyFileBox + `
           </div>
           <br>
         </div>
       </div>
     </div>
   `;
-	$('#content').html(content);
+    $('#content').html(content);
 }
 
 // Time conversion
 function utc2delhi(utc_datetime) {
-	// Convert UTC datetime to local Delhi time
-	var utcDate = new Date(utc_datetime);
-	var delhiDate = new Date(utcDate.getTime() + 5.5 * 60 * 60 * 1000);
+    // Convert UTC datetime to local Delhi time
+    var utcDate = new Date(utc_datetime);
+    var delhiDate = new Date(utcDate.getTime() + 5.5 * 60 * 60 * 1000);
 
-	// Format the Delhi date and time
-	var year = delhiDate.getFullYear();
-	var month = ('0' + (delhiDate.getMonth() + 1)).slice(-2);
-	var date = ('0' + delhiDate.getDate()).slice(-2);
-	var hour = ('0' + delhiDate.getHours()).slice(-2);
-	var minute = ('0' + delhiDate.getMinutes()).slice(-2);
-	var second = ('0' + delhiDate.getSeconds()).slice(-2);
+    // Format the Delhi date and time
+    var year = delhiDate.getFullYear();
+    var month = ('0' + (delhiDate.getMonth() + 1)).slice(-2);
+    var date = ('0' + delhiDate.getDate()).slice(-2);
+    var hour = ('0' + delhiDate.getHours()).slice(-2);
+    var minute = ('0' + delhiDate.getMinutes()).slice(-2);
+    var second = ('0' + delhiDate.getSeconds()).slice(-2);
 
-	return `${date}-${month}-${year} ${hour}:${minute}:${second}`;
+    return `${date}-${month}-${year} ${hour}:${minute}:${second}`;
 }
 
 
 // bytes adaptive conversion to KB, MB, GB
 function formatFileSize(bytes) {
-	if (bytes >= 1099511627776) {
-		bytes = (bytes / 1099511627776).toFixed(2) + ' TB';
-	} else if (bytes >= 1073741824) {
-		bytes = (bytes / 1073741824).toFixed(2) + ' GB';
-	} else if (bytes >= 1048576) {
-		bytes = (bytes / 1048576).toFixed(2) + ' MB';
-	} else if (bytes >= 1024) {
-		bytes = (bytes / 1024).toFixed(2) + ' KB';
-	} else if (bytes > 1) {
-		bytes = bytes + ' bytes';
-	} else if (bytes === 1) {
-		bytes = bytes + ' byte';
-	} else {
-		bytes = '';
-	}
-	return bytes;
+    if (bytes >= 1099511627776) {
+        bytes = (bytes / 1099511627776).toFixed(2) + ' TB';
+    } else if (bytes >= 1073741824) {
+        bytes = (bytes / 1073741824).toFixed(2) + ' GB';
+    } else if (bytes >= 1048576) {
+        bytes = (bytes / 1048576).toFixed(2) + ' MB';
+    } else if (bytes >= 1024) {
+        bytes = (bytes / 1024).toFixed(2) + ' KB';
+    } else if (bytes > 1) {
+        bytes = bytes + ' bytes';
+    } else if (bytes === 1) {
+        bytes = bytes + ' byte';
+    } else {
+        bytes = '';
+    }
+    return bytes;
 }
 
 
 String.prototype.trim = function(char) {
-	if (char) {
-		return this.replace(new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'), '');
-	}
-	return this.replace(/^\s+|\s+$/g, '');
+    if (char) {
+        return this.replace(new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'), '');
+    }
+    return this.replace(/^\s+|\s+$/g, '');
 };
 
 
 // README.md HEAD.md support
 function markdown(el, data) {
-	var html = marked.parse(data);
-	$(el).show().html(html);
+    var html = marked.parse(data);
+    $(el).show().html(html);
 }
 
 // Listen for fallback events
 window.onpopstate = function() {
-	var path = window.location.pathname;
-	render(path);
+    var path = window.location.pathname;
+    render(path);
 }
 
 $(function() {
-	init();
-	var path = window.location.pathname;
-	/*$("body").on("click", '.folder', function () {
-	    var url = $(this).attr('href');
-	    history.pushState(null, null, url);
-	    render(url);
-	    return false;
-	});
-	$("body").on("click", '.view', function () {
-	    var url = $(this).attr('href');
-	    history.pushState(null, null, url);
-	    render(url);
-	    return false;
-	});*/
+    init();
+    var path = window.location.pathname;
+    /*$("body").on("click", '.folder', function () {
+        var url = $(this).attr('href');
+        history.pushState(null, null, url);
+        render(url);
+        return false;
+    });
+    $("body").on("click", '.view', function () {
+        var url = $(this).attr('href');
+        history.pushState(null, null, url);
+        render(url);
+        return false;
+    });*/
 
-	render(path);
+    render(path);
 });
 
 // Copy to Clipboard for Direct Links, This will be modified soon with other UI
 function copyFunction() {
-	var copyText = document.getElementById("dlurl");
-	copyText.select();
-	copyText.setSelectionRange(0, 99999);
+    var copyText = document.getElementById("dlurl");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
 
-	navigator.clipboard.writeText(copyText.value)
-		.then(function() {
-			var tooltip = document.getElementById("myTooltip");
-			tooltip.innerHTML = "Copied";
-		})
-		.catch(function(error) {
-			console.error("Failed to copy text: ", error);
-		});
+    navigator.clipboard.writeText(copyText.value)
+        .then(function() {
+            var tooltip = document.getElementById("myTooltip");
+            tooltip.innerHTML = "Copied";
+        })
+        .catch(function(error) {
+            console.error("Failed to copy text: ", error);
+        });
 }
 
 function outFunc() {
-	var tooltip = document.getElementById("myTooltip");
-	tooltip.innerHTML = "Copy";
+    var tooltip = document.getElementById("myTooltip");
+    tooltip.innerHTML = "Copy";
 }
 
 // function to update the list of checkboxes
 function updateCheckboxes() {
-	const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-	const selectAllCheckbox = document.getElementById('select-all-checkboxes');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const selectAllCheckbox = document.getElementById('select-all-checkboxes');
 
-	if (checkboxes.length > 0 && selectAllCheckbox) { // Check if checkboxes and selectAllCheckbox exist
-		selectAllCheckbox.addEventListener('click', () => {
-			checkboxes.forEach((checkbox) => {
-				checkbox.checked = selectAllCheckbox.checked;
-			});
-		});
-	}
+    if (checkboxes.length > 0 && selectAllCheckbox) { // Check if checkboxes and selectAllCheckbox exist
+        selectAllCheckbox.addEventListener('click', () => {
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+    }
 }
 
 async function getCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for (var i = 0; i < ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-	}
-	return null;
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
 }
 
 // Copy File to User Drive
 async function copyFile(driveid) {
-	try {
-		const copystatus = document.getElementById('copystatus');
-		copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Processing... </div>`;
+    try {
+        const copystatus = document.getElementById('copystatus');
+        copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Processing... </div>`;
 
-		const user_folder_id = document.getElementById('user_folder_id').value;
-		if (user_folder_id === '') {
-			copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Empty ID </div>`;
-			return null;
-		}
+        const user_folder_id = document.getElementById('user_folder_id').value;
+        if (user_folder_id === '') {
+            copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Empty ID </div>`;
+            return null;
+        }
 
-		document.getElementById('spinner').style.display = 'block';
-		document.cookie = `root_id=${user_folder_id}; expires=Thu, 18 Dec 2050 12:00:00 UTC`;
-		const time = Math.floor(Date.now() / 1000);
-		const response = await fetch('/copy', {
-			method: 'POST',
-			cache: 'no-cache',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			body: `id=${encodeURIComponent(driveid)}&root_id=${user_folder_id}&resourcekey=null&time=${time}`
-		});
+        document.getElementById('spinner').style.display = 'block';
+        document.cookie = `root_id=${user_folder_id}; expires=Thu, 18 Dec 2050 12:00:00 UTC`;
+        const time = Math.floor(Date.now() / 1000);
+        const response = await fetch('/copy', {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${encodeURIComponent(driveid)}&root_id=${user_folder_id}&resourcekey=null&time=${time}`
+        });
 
-		if (response.status === 500) {
-			copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Unable to Copy File, Make Sure you've added system@zindex.eu.org to your Destination Folder </div>`;
-		} else if (response.status === 401) {
-			copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Unauthorized </div>`;
-		} else if (response.ok) {
-			const data = await response.json();
-			if (data && data.name) {
-				const link = `https://drive.google.com/file/d/${data.id}/view?usp=share_link`;
-				const copyresult = document.getElementById('copyresult');
-				copyresult.innerHTML = `<div class="col-12 col-md-12"> <input type="text" id="usercopiedfile" class="form-control" placeholder="Enter Your Folder ID to Copy this File" value="${link}" readonly></div> <div class="col-12 col-md-12"> <a href="${link}" target="_blank" style="margin-top: 5px;" class="btn btn-danger btn-block">Open Copied File</a></div>`;
-			} else if (data && data.error && data.error.message) {
-				copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> ` + data.error.message + ` </div>`;
-			} else {
-				copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Unable to Copy File </div>`;
-			}
-		} else {
-			copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Unable to Copy File </div>`;
-		}
+        if (response.status === 500) {
+            copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Unable to Copy File, Make Sure you've added system@zindex.eu.org to your Destination Folder </div>`;
+        } else if (response.status === 401) {
+            copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Unauthorized </div>`;
+        } else if (response.ok) {
+            const data = await response.json();
+            if (data && data.name) {
+                const link = `https://drive.google.com/file/d/${data.id}/view?usp=share_link`;
+                const copyresult = document.getElementById('copyresult');
+                copyresult.innerHTML = `<div class="col-12 col-md-12"> <input type="text" id="usercopiedfile" class="form-control" placeholder="Enter Your Folder ID to Copy this File" value="${link}" readonly></div> <div class="col-12 col-md-12"> <a href="${link}" target="_blank" style="margin-top: 5px;" class="btn btn-danger btn-block">Open Copied File</a></div>`;
+            } else if (data && data.error && data.error.message) {
+                copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> ` + data.error.message + ` </div>`;
+            } else {
+                copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Unable to Copy File </div>`;
+            }
+        } else {
+            copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> Unable to Copy File </div>`;
+        }
 
-		document.getElementById('spinner').style.display = 'none';
-	} catch (error) {
-		const copystatus = document.getElementById('copystatus');
-		copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> An error occurred ` + error + `</div>`;
-		document.getElementById('spinner').style.display = 'none';
-	}
+        document.getElementById('spinner').style.display = 'none';
+    } catch (error) {
+        const copystatus = document.getElementById('copystatus');
+        copystatus.innerHTML = `<div class='alert alert-danger' role='alert'> An error occurred ` + error + `</div>`;
+        document.getElementById('spinner').style.display = 'none';
+    }
 }
 
 
 // create a MutationObserver to listen for changes to the DOM
 const observer = new MutationObserver(() => {
-	updateCheckboxes();
+    updateCheckboxes();
 });
 
 // define the options for the observer (listen for changes to child elements)
 const options = {
-	childList: true,
-	subtree: true
+    childList: true,
+    subtree: true
 };
 
 // observe changes to the body element

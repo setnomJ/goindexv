@@ -1,5 +1,5 @@
 // Software: GDI-JS
-// Version: 2.3.6
+// Version: 2.3.7
 // Author: Parveen Bhadoo
 // Website: https://gdi.js.org
 
@@ -61,7 +61,7 @@ const hmac_base_key = "4d1fbf294186b82d74fff2494c04012364200263d6a36123db0bd08d6
 const encrypt_iv = new Uint8Array([247, 254, 106, 195, 32, 148, 131, 244, 222, 133, 26, 182, 20, 138, 215, 81]); // Example 128 bit IV used, generate your own.
 const uiConfig = {
   "theme": "darkly", // switch between themes, default set to slate, select from https://gitlab.com/GoogleDriveIndex/Google-Drive-Index
-  "version": "2.3.6", // don't touch this one. get latest code using generator at https://bdi-generator.hashhackers.com
+  "version": "2.3.7", // don't touch this one. get latest code using generator at https://bdi-generator.hashhackers.com
   // If you're using Image then set to true, If you want text then set it to false
   "logo_image": true, // true if you're using image link in next option.
   "logo_height": "", // only if logo_image is true
@@ -108,7 +108,6 @@ const uiConfig = {
   "unauthorized_owner_email": "abuse@telegram.org", // Unauthorized Error Page Owner Email
   "downloaddomain": domain_for_dl, // Ignore this and set domains at top of this page after service accounts.
   "show_logout_button": authConfig.enable_login ? true : false, // set to true if you want to add logout button
-  "allow_file_copy": false, // set to false if you want to disable file copy
 };
 
 const player_config = {
@@ -1084,54 +1083,6 @@ async function handleRequest(request, event) {
       }
     }
   }
-  if (request.method === "POST" && path == "/copy") {
-    try {
-      let form = await request.formData();
-      let time = form.get('time')
-      if (time < Math.floor(Date.now() / 1000)) {
-        return new Response('{"error":"Invalid Time"}', {
-          status: 404,
-          headers: {
-            "content-type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Cache-Control": "max-age=0",
-          }
-        });
-      }
-      let user_drive = form.get('root_id') || "null";
-      if (user_drive == "null") {
-        return new Response('{"error":"404"}', {
-          status: 200,
-          headers: {
-            "content-type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Cache-Control": "max-age=0",
-          }
-        });
-      }
-      let public_drive_id = await decryptString(form.get('id')) || "null";
-      let user_folder_id = form.get('root_id') || "null";
-      let resourcekey = form.get('resourcekey') || "null";
-      let file = await copyItemById(public_drive_id, resourcekey, user_folder_id);
-      return new Response(JSON.stringify(file), {
-        status: 200,
-        headers: {
-          "content-type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "max-age=0",
-        }
-      });
-    } catch (e) {
-      return new Response(e, {
-        status: 200,
-        headers: {
-          "content-type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "max-age=0",
-        }
-      });
-    }
-  }
 
   if (gds.length === 0) {
     for (let i = 0; i < authConfig.roots.length; i++) {
@@ -1409,33 +1360,6 @@ async function fetchAccessToken() {
     await sleep(800 * (i + 1));
   }
   return await response.json();
-}
-
-async function copyItemById(id, resourcekey, user_folder_id, headers = {}) {
-  let url = `https://www.googleapis.com/drive/v3/files/${id}/copy?fields=id,name,mimeType&supportsAllDrives=true`;
-  const accessToken = await getAccessToken();
-  headers["authorization"] = "Bearer " + accessToken;
-  headers["Accept"] = "application/json";
-  headers["Content-Type"] = "application/json";
-  headers["X-Goog-Drive-Resource-Keys"] = id + "/" + resourcekey;
-  let json = {
-    parents: [user_folder_id]
-  }
-  let res
-  for (let i = 0; i < 3; i++) {
-    res = await fetch(url, {
-      "method": "POST",
-      "headers": headers,
-      "body": JSON.stringify(json)
-    });
-    if (res.ok) {
-      break;
-    }
-    await sleep(100 * (i + 1));
-  }
-  const data = await res.json();
-  console.log(data);
-  return data;
 }
 
 async function sleep(ms) {
