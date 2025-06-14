@@ -696,6 +696,7 @@ function append_files_to_list(path, files) {
             var is_file = true
             var epn = item.name;
             var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
+            if (item.shortLink) { link = item.shortLink; }					
             var pn = path + epn.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
             var c = "file";
             // README is displayed after the last page is loaded, otherwise it will affect the scroll event
@@ -984,6 +985,7 @@ function append_search_result_to_list(files) {
                 item['size'] = formatFileSize(item['size']);
                 var ext = item.fileExtension
                 var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
+						    if (item.shortLink) { link = item.shortLink; }	
                 html += `<div style="color: ${UI.css_a_tag_color};" gd-type="$item['mimeType']}" class="countitems size_items list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`
 
                 if ("|mp4|webm|avi|mpg|mpeg|mkv|rm|rmvb|mov|wmv|asf|ts|flv|".indexOf(`|${ext}|`) >= 0) {
