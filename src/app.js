@@ -696,7 +696,7 @@ function append_files_to_list(path, files) {
             var is_file = true
             var epn = item.name;
             var link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
-            if (item.shortLink) { link = item.shortLink; }					
+						if (item.shortLink) { link = item.shortLink; }					
             var pn = path + epn.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
             var c = "file";
             // README is displayed after the last page is loaded, otherwise it will affect the scroll event
